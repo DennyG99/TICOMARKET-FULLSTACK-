@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import './gestionModerador.css'
 
 export function GestionModerador() {
+  
   useEffect(() => {
     // Inicializa DataTables después de que el componente se monta
     $('#example').DataTable();
