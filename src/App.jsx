@@ -7,7 +7,6 @@ function App() {
 
   return (
     <>
-   <GestionSuperAdministrador></GestionSuperAdministrador>
     <h1>Content</h1>
     </>
   )
