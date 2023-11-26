@@ -1,17 +1,16 @@
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { NuevoPlan } from "./NuevoPlan";
 import { EditarPlan } from "./EditarPlan";
 
-export function CardPlanes() {
+const CardPlanes = () => {
   useEffect(() => {
     $("#example").DataTable();
   }, []);
 
   return (
     <>
-      <>
-        <div id="superAdminContainer">
+      <div className="container-inPage">
+        <div id="superAdminContainer" className="container">
           <div className="card" id="superAdminCard">
             <div className="card-body">
               <h3 className="mb-0 text-uppercase">Gestión de planes</h3>
@@ -51,7 +50,9 @@ export function CardPlanes() {
             </div>
           </div>
         </div>
-      </>
+      </div>
     </>
   );
-}
+};
+
+export default CardPlanes;

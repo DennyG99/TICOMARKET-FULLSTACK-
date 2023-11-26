@@ -2182,6 +2182,15 @@ input.search-control-2::placeholder {
   cursor: pointer;
 }
 
+.container-inPage{
+  position: relative;
+  top: calc(9vh);
+}
+.container-inPage2{
+  position: relative;
+  top: calc(5vh);
+}
+
 @media screen and (max-width: 1280px) {
   .email-header {
     height: auto;

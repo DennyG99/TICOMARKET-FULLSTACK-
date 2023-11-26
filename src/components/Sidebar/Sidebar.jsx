@@ -1,22 +1,23 @@
 import React from "react";
 import BodyConfig from "../Body/BodyConfig/BodyConfig";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
     <>
-    <BodyConfig/>
+      <BodyConfig />
       <div className="sidebar-wrapper" data-simplebar="true">
         <div className="sidebar-header">
-          <div>
+          <Link to="/dashboard">
             <img
               src="assets/images/logo-icon.png"
               className="logo-icon"
               alt="logo icon"
             />
-          </div>
-          <div>
+          </Link>
+          <Link to="/dashboard">
             <h4 className="logo-text">Rukada</h4>
-          </div>
+          </Link>
           <div className="toggle-icon ms-auto">
             <i className="bx bx-arrow-to-left" />
           </div>
@@ -72,40 +73,34 @@ const Sidebar = () => {
             </a>
             <ul>
               <li>
-                <a href="app-emailbox.html">
+                <Link to="/estados">
                   <i className="bx bx-right-arrow-alt" />
-                  Email
-                </a>
+                  Estados
+                </Link>
               </li>
               <li>
-                <a href="app-chat-box.html">
+                <Link to="/politicas">
                   <i className="bx bx-right-arrow-alt" />
-                  Chat Box
-                </a>
+                  Politicas
+                </Link>
               </li>
               <li>
-                <a href="app-file-manager.html">
+                <Link to="/planes">
                   <i className="bx bx-right-arrow-alt" />
-                  File Manager
-                </a>
+                  Planes
+                </Link>
               </li>
               <li>
-                <a href="app-contact-list.html">
+                <Link to="/moderador">
                   <i className="bx bx-right-arrow-alt" />
-                  Contatcs
-                </a>
+                  Moderador
+                </Link>
               </li>
               <li>
-                <a href="app-to-do.html">
+                <Link to="/administradores">
                   <i className="bx bx-right-arrow-alt" />
-                  Todo List
-                </a>
-              </li>
-              <li>
-                <a href="app-invoice.html">
-                  <i className="bx bx-right-arrow-alt" />
-                  Invoice
-                </a>
+                  Administradores
+                </Link>
               </li>
               <li>
                 <a href="app-fullcalender.html">
@@ -625,7 +620,8 @@ const Sidebar = () => {
           <li>
             <a
               href="https://codervent.com/rukada/documentation/index.html"
-              target="_blank" rel="noreferrer"
+              target="_blank"
+              rel="noreferrer"
             >
               <div className="parent-icon">
                 <i className="bx bx-folder" />
@@ -634,7 +630,11 @@ const Sidebar = () => {
             </a>
           </li>
           <li>
-            <a href="https://themeforest.net/user/codervent" target="_blank" rel="noreferrer">
+            <a
+              href="https://themeforest.net/user/codervent"
+              target="_blank"
+              rel="noreferrer"
+            >
               <div className="parent-icon">
                 <i className="bx bx-support" />
               </div>

@@ -1,13 +1,12 @@
 import React, { useEffect } from "react";
-import "./gestionSuperAdmin.css";
 
-export function GestionSuperAdministrador() {
+const GestionSuperAdmin = () => {
   useEffect(() => {
     // Inicializa DataTables después de que el componente se monta
     $("#example").DataTable();
   }, []);
   return (
-    <>
+    <div className="container container-inPage">
       <div id="superAdminContainer">
         <div className="card" id="superAdminCard">
           <div className="card-body">
@@ -15,7 +14,7 @@ export function GestionSuperAdministrador() {
               Super administrador - Usuarios Registrados
             </h6>
             <div className="mt-3 ">
-              <AgregarUsuario></AgregarUsuario>
+              <AgregarUsuario />
             </div>
             <br />
 
@@ -47,9 +46,9 @@ export function GestionSuperAdministrador() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
-}
+};
 
 function AgregarUsuario() {
   return (
@@ -151,3 +150,5 @@ function AgregarUsuario() {
     </>
   );
 }
+
+export default GestionSuperAdmin;
