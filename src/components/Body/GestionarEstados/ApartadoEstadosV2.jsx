@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
+import './estados.css';
 
 const ApartadoEstadosV2 = () => {
   const [editar, setEditar] = useState(false);
@@ -41,7 +42,7 @@ const ApartadoEstadosV2 = () => {
 
   return (
     <>
-      <div className="container-inPage">
+      <div className="container-inPage margen">
         <div className="container">
           <h6 className="mb-0 text-uppercase">Gestión Estados</h6>
           <hr />
