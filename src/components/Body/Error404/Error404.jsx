@@ -39,7 +39,7 @@ const Error404 = () => {
               <img
                 src="https://cdn.searchenginejournal.com/wp-content/uploads/2019/03/shutterstock_1338315902.png"
                 className="img-fluid"
-                alt
+                alt="true"
               />
             </div>
           </div>

@@ -19,6 +19,8 @@ import CardPlanes from "./components/Body/Planes/CardPlanes.jsx";
 import GestionModerador from "./components/Body/GestionAdministrador/GestionModerador.jsx";
 import GestionSuperAdmin from "./components/Body/GestionAdministrador/GestionSuperAdmin.jsx";
 import ResumenesEstadisticos from "./components/Body/ResumenesEstadisticos/ResumenesEstadisticos.jsx";
+import GestionUsuario from "./components/Body/GestionUsuario/GestionUsuario.jsx";
+import GestionarVendedores from "./components/Body/Vendedores/GestionarVendedores.jsx";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -43,16 +45,17 @@ function App() {
           <Sidebar />
           <Header />
           <Routes>
+            <Route path="/" element={<ResumenesEstadisticos />} />
             <Route path="/dashboard" element={<ResumenesEstadisticos />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/error404" element={<Error404 />} />
-            {/* <Route path="/prueba" element={<Dashboard />} /> */}
-
             <Route path="/estados" element={<ApartadoEstadosV2 />} />
             <Route path="/politicas" element={<CardPoliticas />} />
             <Route path="/planes" element={<CardPlanes />} />
             <Route path="/moderador" element={<GestionModerador />} />
             <Route path="/administradores" element={<GestionSuperAdmin />} />
+            <Route path="/usuarios" element={<GestionUsuario />} />
+            <Route path="/vendedores" element={<GestionarVendedores />} />
           </Routes>
           <Footer />
         </div>
