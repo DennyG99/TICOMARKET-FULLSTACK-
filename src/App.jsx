@@ -21,6 +21,7 @@ import GestionSuperAdmin from "./components/Body/GestionAdministrador/GestionSup
 import ResumenesEstadisticos from "./components/Body/ResumenesEstadisticos/ResumenesEstadisticos.jsx";
 import GestionUsuario from "./components/Body/GestionUsuario/GestionUsuario.jsx";
 import GestionarVendedores from "./components/Body/Vendedores/GestionarVendedores.jsx";
+import MonitorearActividades from "./components/Body/MonitorearActividades/monitorearActividades.jsx";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();

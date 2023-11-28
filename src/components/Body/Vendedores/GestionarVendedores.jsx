@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import EditarVendedor from "./EditarVendedor";
 
 const GestionarVendedores = () => {
-  useEffect(() => {
-    $("#example").DataTable();
-  }, []);
+  // useEffect(() => {
+  //   $("#example").DataTable();
+  // }, []);
 
   return (
     <>

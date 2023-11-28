@@ -1,6 +1,6 @@
 import React from "react";
 
-export function EditarVendedor() {
+const EditarVendedor = () => {
   return (
     <>
       <div>
@@ -33,7 +33,7 @@ export function EditarVendedor() {
               </div>
               <div className="modal-body">
                 <form>
-                  <div className="form-group"> 
+                  <div className="form-group">
                     <label htmlFor="nombre">Nombre</label>
                     <input
                       type="text"
@@ -42,7 +42,7 @@ export function EditarVendedor() {
                       placeholder="Ingrese el nombre"
                     />
                   </div>
-                  <div className="form-group"> 
+                  <div className="form-group">
                     <label htmlFor="nombre">Primer Apellido</label>
                     <input
                       type="text"
@@ -52,7 +52,7 @@ export function EditarVendedor() {
                     />
                   </div>
 
-                  <div className="form-group"> 
+                  <div className="form-group">
                     <label htmlFor="nombre">Segundo Apellido</label>
                     <input
                       type="text"
@@ -71,7 +71,7 @@ export function EditarVendedor() {
                     />
                   </div>
 
-                  <div className="form-group"> 
+                  <div className="form-group">
                     <label htmlFor="nombre">Contraseña</label>
                     <input
                       type="text"
@@ -80,7 +80,7 @@ export function EditarVendedor() {
                       placeholder="Ingrese el contraseña"
                     />
                   </div>
-                  <div className="form-group"> 
+                  <div className="form-group">
                     <label htmlFor="nombre">Rol</label>
                     <input
                       type="text"
@@ -90,7 +90,7 @@ export function EditarVendedor() {
                     />
                   </div>
 
-                  <div className="form-group"> 
+                  <div className="form-group">
                     <label htmlFor="nombre">Estado</label>
                     <input
                       type="text"
@@ -100,7 +100,7 @@ export function EditarVendedor() {
                     />
                   </div>
 
-                <div className="form-group"> 
+                  <div className="form-group">
                     <label htmlFor="nombre">Telefono</label>
                     <input
                       type="text"
@@ -109,7 +109,6 @@ export function EditarVendedor() {
                       placeholder="Ingrese el Telefono"
                     />
                   </div>
-
                 </form>
               </div>
               <div className="modal-footer">
@@ -130,4 +129,6 @@ export function EditarVendedor() {
       </div>
     </>
   );
-}
+};
+
+export default EditarVendedor;

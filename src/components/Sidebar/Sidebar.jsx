@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React from "react";
 import BodyConfig from "../Body/BodyConfig/BodyConfig";
 import { Link } from "react-router-dom";
