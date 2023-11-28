@@ -1,6 +1,72 @@
-import React from "react";
-
+import React, { useState } from "react";
+import Swal from "sweetalert2";
+import axios from "axios";
 export function NuevaPolitica() {
+
+
+const [formData,setFormData]=useState({
+  nombre: "",
+  descripcion: "",
+  idEstado: "Seleccionar Estado"
+});
+
+
+
+const handleInputChange = (event) => {
+  const { id, value } = event.target;
+  setFormData((prevFormData) => ({
+    ...prevFormData,
+    [id]: value,
+  }));
+};
+
+const ingresarPolitica=()=>{
+  axios.post('http://localhost:8000/api/politicas/crear',formData).then((response)=>{
+
+ 
+  }).catch((e)=>{
+    console.log(e);
+    alert(e);
+  })
+}
+
+
+
+
+const handleSaveClick = () => {
+  // Validar que todos los campos obligatorios estén llenos
+  if (
+    formData.nombre &&
+    formData.descripcion &&
+    formData.idEstado !== 'Seleccionar Estado'
+  ) {
+    // Aquí puedes usar el objeto formData como lo necesites
+    console.log('Datos del formulario:', formData);
+
+    // Puedes realizar acciones adicionales aquí, como enviar los datos a un backend
+    // ...\
+    
+
+    // Limpiar el formulario después de guardar
+    setFormData({
+      nombre: '',
+      descripcion: '',
+      idEstado: 'Seleccionar Estado',
+    });
+    ingresarPolitica();
+    Swal.fire({
+      icon: "success",
+      title: "Datos agregados Correctamente",
+    });
+   
+  } else {
+    Swal.fire({
+      icon: "warning",
+      title: "Existen campos vacios",
+    });
+  }
+};
+
   return (
     <>
       <button
@@ -40,19 +106,39 @@ export function NuevaPolitica() {
                     type="text"
                     className="form-control"
                     id="nombre"
+                    value={formData.nombre}
+                    onChange={handleInputChange}
                     placeholder="Ingrese el nombre de la política"
                   />
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="correo">Correo</label>
+                  <label htmlFor="correo">Descripcion</label>
                   <input
                     type="email"
                     className="form-control"
-                    id="correo"
+                    id="descripcion"
+                    value={formData.descripcion}
+                    onChange={handleInputChange}
                     placeholder="Ingrese el correo"
                   />
                 </div>
+
+                <div className="form-group">
+                    <label htmlFor="estado">Estado</label>
+                    <select
+                      className="form-control"
+                      id="idEstado"
+                      value={formData.idEstado}
+                      onChange={handleInputChange}
+                      required
+                    >
+                      <option>Seleccionar Estado</option>
+                      <option key={1} value={1}>Activo</option>
+                      <option key={2} value={2}>Inactivo</option>
+                    </select>
+                  </div>
+
               </form>
             </div>
             <div className="modal-footer">
@@ -63,7 +149,7 @@ export function NuevaPolitica() {
               >
                 Cerrar
               </button>
-              <button type="button" className="btn btn-primary">
+              <button type="button" className="btn btn-primary" onClick={handleSaveClick}>
                 Guardar
               </button>
             </div>

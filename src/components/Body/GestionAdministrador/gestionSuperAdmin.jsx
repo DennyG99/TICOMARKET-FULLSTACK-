@@ -1,10 +1,32 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
+
+const endpoint = "http://127.0.0.1:8000/api";
 
 const GestionSuperAdmin = () => {
   useEffect(() => {
     // Inicializa DataTables después de que el componente se monta
     $("#example").DataTable();
   }, []);
+
+  const [usuarios, setUsuarios] = useState();
+
+  useEffect(() => {
+    // Realizar la solicitud GET al endpoint
+    axios
+      .get(`${endpoint}/usuario`)
+      .then((response) => {
+        // Manejar la respuesta exitosa
+        setUsuarios(response.data);
+        console.log(usuarios);
+      })
+      .catch((error) => {
+        // Manejar errores
+        console.error("Error al obtener usuarios:", error);
+      });
+  }, []);
+
   return (
     <div className="container container-inPage">
       <div id="superAdminContainer">
@@ -51,6 +73,104 @@ const GestionSuperAdmin = () => {
 };
 
 function AgregarUsuario() {
+  const [roles, setRoles] = useState([]);
+
+  useEffect(() => {
+    // Realizar la solicitud GET al endpoint
+    axios
+      .get(`http://localhost:8000/api/roles`)
+      .then((response) => {
+        // Manejar la respuesta exitosa
+        setRoles(response.data);
+        //console.log(roles);
+      })
+      .catch((error) => {
+        // Manejar errores
+        console.error("Error al obtener usuarios:", error);
+      });
+  }, []);
+
+  const [formData, setFormData] = useState({
+    nombre: '',
+    apellidoUno:'',
+    apellidoDos:'',
+    correo: '',
+    contrasena: '',
+    idRol: 'Seleccionar Rol',
+    idEstado: 'Seleccionar Estado',
+    telefono: '',
+  });
+
+  const handleInputChange = (event) => {
+    const { id, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [id]: value,
+    }));
+  };
+
+
+  const ingresarUsuario=()=>{
+    axios.post('http://localhost:8000/api/usuario/insertar',formData)
+    .then((response)=>{
+
+   
+    }).catch((e)=>{
+      console.log(formData);
+      alert(e);
+    })
+
+
+  }
+
+  // Manejar clic en el botón "Guardar"
+  const handleSaveClick = () => {
+    // Validar que todos los campos obligatorios estén llenos
+    if (
+      formData.nombre &&
+      formData.apellidoUno &&
+      formData.apellidoDos &&
+      formData.correo &&
+      formData.contrasena &&
+      formData.idRol !== 'Seleccionar Rol' &&
+      formData.idEstado !== 'Seleccionar Estado' &&
+      formData.telefono
+    ) {
+      // Aquí puedes usar el objeto formData como lo necesites
+      console.log('Datos del formulario:', formData);
+
+      // Puedes realizar acciones adicionales aquí, como enviar los datos a un backend
+      // ...\
+      
+
+      // Limpiar el formulario después de guardar
+      setFormData({
+        nombre: '',
+        apellidoUno: '',
+        apellidoDos: '',
+        correo: '',
+        contrasena: '',
+        idRol: 'Seleccionar Rol',
+        idEstado: 'Seleccionar Estado',
+        telefono: '',
+      });
+      ingresarUsuario();
+      Swal.fire({
+        icon: "success",
+        title: "Datos agregados Correctamente",
+      });
+     
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Existen campos vacios",
+      });
+    }
+  };
+
+
+
+
   return (
     <>
       <div>
@@ -83,7 +203,7 @@ function AgregarUsuario() {
                 />
               </div>
               <div className="modal-body">
-                <form>
+              <form>
                   <div className="form-group">
                     <label htmlFor="nombre">Nombre</label>
                     <input
@@ -91,8 +211,56 @@ function AgregarUsuario() {
                       className="form-control"
                       id="nombre"
                       placeholder="Ingrese el nombre"
+                      value={formData.nombre}
+                      onChange={handleInputChange}
+                      required
                     />
                   </div>
+
+                  <div className="form-group">
+                    <label htmlFor="apellido1">Primer apellido</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="apellidoUno"
+                      placeholder="Ingrese el primer apellido"
+                      value={formData.apellidoUno}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="apellido2">Segundo apellido</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="apellidoDos"
+                      placeholder="Ingrese el segundo apellido"
+                      value={formData.apellidoDos}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                   <div className="form-group">
                     <label htmlFor="correo">Correo</label>
                     <input
@@ -100,6 +268,9 @@ function AgregarUsuario() {
                       className="form-control"
                       id="correo"
                       placeholder="Ingrese el correo"
+                      value={formData.correo}
+                      onChange={handleInputChange}
+                      required
                     />
                   </div>
                   <div className="form-group">
@@ -109,37 +280,68 @@ function AgregarUsuario() {
                       className="form-control"
                       id="contrasena"
                       placeholder="Ingrese la contraseña"
+                      value={formData.contrasena}
+                      onChange={handleInputChange}
+                      required
                     />
                   </div>
                   <div className="form-group">
+                    <label htmlFor="telefono">Teléfono</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="telefono"
+                      placeholder="Ingrese su teléfono"
+                      value={formData.telefono}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="form-group">
                     <label htmlFor="rol">Rol</label>
-                    <select className="form-control" id="rol">
+                    <select
+                      className="form-control"
+                      id="idRol"
+                      value={formData.idRol}
+                      onChange={handleInputChange}
+                      required
+                    >
                       <option>Seleccionar Rol</option>
-                      <option>Administrador</option>
-                      <option>Usuario</option>
-                      {"Agrega más roles según sea necesario"}
+                      {roles.map((rol) => (
+                        <option key={rol.id} value={rol.id} >{rol.nombre}</option>
+                      ))}
                     </select>
                   </div>
                   <div className="form-group">
                     <label htmlFor="estado">Estado</label>
-                    <select className="form-control" id="estado">
+                    <select
+                      className="form-control"
+                      id="idEstado"
+                      value={formData.idEstado}
+                      onChange={handleInputChange}
+                      required
+                    >
                       <option>Seleccionar Estado</option>
-                      <option>Activo</option>
-                      <option>Inactivo</option>
-                      {" Agrega más estados según sea necesario "}
+                      <option key={1} value={1}>Activo</option>
+                      <option key={2} value={2}>Inactivo</option>
                     </select>
                   </div>
                 </form>
               </div>
               <div className="modal-footer">
-                <button
+              <button
                   type="button"
                   className="btn btn-secondary"
                   data-bs-dismiss="modal"
                 >
                   Cerrar
                 </button>
-                <button type="button" className="btn btn-primary">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={handleSaveClick}
+                >
                   Guardar
                 </button>
               </div>

@@ -1,12 +1,52 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { NuevaPolitica } from "./NuevaPolitica";
 import { EditarPolitica } from "./EditarPolitica";
+import axios from "axios";
 
 const CardPoliticas = () => {
   useEffect(() => {
     $("#example").DataTable();
   }, []);
+
+
+  const [politicas, setPoliticas] = useState([]);
+
+  useEffect(() => {
+    // Realizar la solicitud GET al endpoint
+    axios
+      .get(`http://localhost:8000/api/politicas`)
+      .then((response) => {
+        // Manejar la respuesta exitosa
+        setPoliticas(response.data);
+        console.log(politicas);
+      })
+      .catch((error) => {
+        // Manejar errores
+        console.error("Error al obtener usuarios:", error);
+      });
+  }, []);
+
+
+const borrarPolitica=(id)=>{
+
+  console.log("Soy id",id);
+  axios
+  .delete(`http://localhost:8000/api/politicas/eliminar/${id}`)
+  .then((response) => {
+    console.log("Datos borrados");
+
+  })
+  .catch((error) => {
+    console.error("Error al obtener usuarios:", error);
+  });
+
+
+
+}
+
+
+
 
   return (
     <div className="container-inPage">
@@ -26,27 +66,40 @@ const CardPoliticas = () => {
               >
                 <thead>
                   <tr>
-                    <th>Nombre de usuario</th>
-                    <th>Correo</th>
+                    <th>Nombre</th>
+                    <th>Descripcion</th>
                     <th>Estado</th>
-                    <th>Rol</th>
+                    <th>Accion</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>Edinburgh</td>
+                
+                  {politicas.map(politica => (
+              <>
+                <tr>
+                 <td>{politica.nombre}</td>
+                    <td>{politica.descripcion}</td>
+                    <td>{politica.idEstado}</td>
                     <td>
-                      <EditarPolitica></EditarPolitica>
-                      <button className="btn btn-warning btn-sm m-1">
-                        Inactivar
+                  
+                      
+                      <EditarPolitica
+                      nombre={politica.nombre}
+                      descripcion={politica.descripcion}
+                      estado={politica.idEstado}
+                      id={politica.idPolitica}
+                      ></EditarPolitica>
+                      <button className="btn btn-danger btn-sm m-1" onClick={()=>{borrarPolitica(politica.idPolitica)}}>
+                        Eliminar
                       </button>
-                      <button className="btn btn-danger btn-sm m-1">
-                        Bloquear
-                      </button>
-                    </td>
-                  </tr>
+    
+                      </td>
+                      </tr>
+              
+              
+              </>
+                ))}          
+                 
                 </tbody>
               </table>
             </div>

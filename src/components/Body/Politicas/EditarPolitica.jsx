@@ -1,6 +1,79 @@
 import React from "react";
+import { useState } from "react";
+import Swal from "sweetalert2";
+import axios from "axios";
+export function EditarPolitica(props) {
 
-export function EditarPolitica() {
+
+
+  const [formData,setFormData]=useState({
+    nombre: props.nombre,
+    descripcion: props.descripcion,
+    idEstado: props.estado
+  });
+
+  console.log(formData)
+  
+  
+  
+  const handleInputChange = (event) => {
+    const { id, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [id]: value,
+    }));
+  };
+  
+  const editarPolitica=(id)=>{
+
+    axios.put(`http://localhost:8000/api/politicas/editar/${id}`,formData).then((response)=>{
+      Swal.fire({
+        icon: "success",
+        title: "Datos agregados Correctamente",
+      });
+   
+    }).catch((e)=>{
+      console.log(e);
+      alert(e);
+    })
+  }
+  
+  
+  
+  
+  const handleSaveClick = () => {
+    // Validar que todos los campos obligatorios estén llenos
+    if (
+      formData.nombre &&
+      formData.descripcion &&
+      formData.idEstado !== 'Seleccionar Estado'
+    ) {
+      // Aquí puedes usar el objeto formData como lo necesites
+      console.log('Datos del formulario:', formData);
+      editarPolitica(props.id);         
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Existen campos vacios",
+      });
+    }
+  };
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     return (
       <>
         <button
@@ -12,6 +85,7 @@ export function EditarPolitica() {
         </button>
 
         <div
+        key={props.idPolitica}
         className="modal fade"
         id="editarPolitica"
         tabIndex="-1"
@@ -33,25 +107,44 @@ export function EditarPolitica() {
             </div>
             <div className="modal-body">
               <form>
-                <div className="form-group">
+              <div className="form-group">
                   <label htmlFor="nombre">Nombre de la política</label>
                   <input
                     type="text"
                     className="form-control"
                     id="nombre"
+                    value={formData.nombre}
+                    onChange={handleInputChange}
                     placeholder="Ingrese el nombre de la política"
                   />
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="correo">Correo</label>
+                  <label htmlFor="correo">Descripcion</label>
                   <input
                     type="email"
                     className="form-control"
-                    id="correo"
+                    id="descripcion"
+                    value={formData.descripcion}
+                    onChange={handleInputChange}
                     placeholder="Ingrese el correo"
                   />
                 </div>
+
+                <div className="form-group">
+                    <label htmlFor="estado">Estado</label>
+                    <select
+                      className="form-control"
+                      id="idEstado"
+                      value={props.idEstado}
+                      onChange={handleInputChange}
+                      required
+                    >
+                      <option>Seleccionar Estado</option>
+                      <option key={1} value={1}>Activo</option>
+                      <option key={2} value={2}>Inactivo</option>
+                    </select>
+                  </div>
               </form>
             </div>
             <div className="modal-footer">
@@ -62,7 +155,7 @@ export function EditarPolitica() {
               >
                 Cerrar
               </button>
-              <button type="button" className="btn btn-primary">
+              <button type="button" className="btn btn-primary" onClick={handleSaveClick}>
                 Guardar
               </button>
             </div>
