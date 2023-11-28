@@ -10,7 +10,7 @@ const Sidebar = () => {
         <div className="sidebar-header">
           <Link to="/dashboard">
             <img
-              src="assets/images/logo-icon.png"
+              src="assets/images/LOGO TM - LITTLE.png"
               className="logo-icon"
               alt="logo icon"
             />

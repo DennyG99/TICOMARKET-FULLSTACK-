@@ -1,12 +1,35 @@
-import React, { useEffect } from "react";
+import axios from "axios";
+import React, { useEffect,useState } from "react";
+
+const endpoint = "http://127.0.0.1:8000/api";
 
 const MonitorearActividades = () => {
+  const [usuarios, setUsuario] = useState([]);
+  const [dataLoaded, setDataLoaded] = useState(false);
+
+  useEffect(()=>{
+    axios
+    .get(`${endpoint}/usuario`)
+    .then((response)=>{
+      setUsuario(response.data)
+      setDataLoaded(true)
+    })
+    .catch((error)=>{
+      console.log("No se han obtenido correctamente los datos",error)
+    })
+  },[]);
+
   useEffect(() => {
     $("#example").DataTable();
+  }, [dataLoaded, usuarios]);
+
+  useEffect(() => {
+    $("#example").DataTable().destroy();
   }, []);
+
   return (
     <>
-      <div className="container-inPage" style={{marginTop: "2%"}}>
+      <div className="container-inPage" style={{marginTop: "1%"}}>
         <div id="monitorearAcContainer" className="container">
           <div className="card" id="monitorearAcCard">
             <div className="card-body">
@@ -23,18 +46,20 @@ const MonitorearActividades = () => {
                   <thead>
                     <tr>
                       <th>ID Usuario</th>
-                      <th>Nombre</th>
-                      <th>Apellido</th>
+                      <th>Nombre Completo</th>
+                      <th>Rol</th>
                       <th>Fecha de Acceso</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>18251</td>
-                      <td>Tiger</td>
-                      <td>Nixon</td>
-                      <td>07-12-2022</td>
-                    </tr>
+                    {usuarios.map((usuario)=>(
+                      <tr key={usuario.id}>
+                        <td>{usuario.id}</td>
+                        <td>{usuario.nombre} {usuario.apellidoUno} {usuario.apellidoDos}</td>
+                        <td>{usuario.rol}</td>
+                        <td>{usuario.fechaAcceso}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

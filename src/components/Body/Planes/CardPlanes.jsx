@@ -81,7 +81,7 @@ const CardPlanes = () => {
 
   return (
     <>
-      <div className="container-inPage">
+      <div className="container-inPage" style={{marginTop:"1%"}}>
         <div id="superAdminContainer" className="container">
           <div className="card" id="superAdminCard">
             <div className="card-body">
