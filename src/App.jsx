@@ -19,6 +19,7 @@ import CardPlanes from "./components/Body/Planes/CardPlanes.jsx";
 import GestionModerador from "./components/Body/GestionAdministrador/GestionModerador.jsx";
 import GestionSuperAdmin from "./components/Body/GestionAdministrador/GestionSuperAdmin.jsx";
 import ResumenesEstadisticos from "./components/Body/ResumenesEstadisticos/ResumenesEstadisticos.jsx";
+import MonitorearActividades from "./components/Body/MonitorearActividades/MonitorearActividades.jsx";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -53,6 +54,7 @@ function App() {
             <Route path="/planes" element={<CardPlanes />} />
             <Route path="/moderador" element={<GestionModerador />} />
             <Route path="/administradores" element={<GestionSuperAdmin />} />
+            <Route path="/monitoreo" element={<MonitorearActividades />} />
           </Routes>
           <Footer />
         </div>
