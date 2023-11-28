@@ -103,9 +103,9 @@ const Sidebar = () => {
                 </Link>
               </li>
               <li>
-                <a href="app-fullcalender.html">
+                <a href="/monitoreo">
                   <i className="bx bx-right-arrow-alt" />
-                  Calendar
+                  Monitoreo de Actividades
                 </a>
               </li>
             </ul>
