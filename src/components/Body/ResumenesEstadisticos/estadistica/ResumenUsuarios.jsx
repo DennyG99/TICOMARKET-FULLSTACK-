@@ -6,20 +6,29 @@ const endpoint = 'http://127.0.0.1:8000/api/admin';
 
 const ResumenUsuarios = () => {
     const [usuarios, setUsuarios] = useState([]);
+    const [dataLoaded, setDataLoaded] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`${endpoint}/estado-usuarios`);
                 setUsuarios(response.data);
-                // Inicializar DataTable después de obtener los datos
+                setDataLoaded(true)
+
             } catch (error) {
                 console.error('Error al obtener usuarios:', error.message);
             }
         };
 
         fetchData();
-    }, []); // El segundo parámetro [] indica que el efecto solo se ejecutará una vez al montar el componente
+    }, []); 
+
+    useEffect(() => {
+        $("#mytable").DataTable();
+      }, [dataLoaded, usuarios]);
+    useEffect(() => {
+        $("#mytable").DataTable().destroy();
+      }, []);
     return (
         <div>
             <table id="mytable" className="table table-striped table-bordered" style={{ width: '100%' }}>

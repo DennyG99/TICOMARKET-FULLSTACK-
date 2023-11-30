@@ -69,58 +69,67 @@ const ResumenesEstadisticos = () => {
                         Aca van las graficas 
                         */}
             <div className="row">
-              <div className="col-xl-9 mx-auto">
-                <h6 className="mb-0 text-uppercase">Ingresos por Anuncios</h6>
-                <hr />
-                <div className="card">
-                  <div className="card-body">
-                    <div className="chart-container1">
-                      <LineChart />
-                    </div>
-                  </div>
-                </div>
-
-                <h6 className="mb-0 text-uppercase">Ventas por tienda</h6>
-                <hr />
-                <div className="card">
-                  <div className="card-body">
-                    <div className="chart-container1">
-                      <BarChart />
-                    </div>
-                  </div>
-                </div>
-
-                <h6 className="mb-0 text-uppercase">Productos más vendidos</h6>
-                <hr />
-                <div className="card">
-                  <div className="card-body">
-                    <div className="chart-container1">
-                      <PieChart />
-                    </div>
-                  </div>
-                </div>
-
-                <h6 className="mb-0 text-uppercase">Vendedores cotizados</h6>
-                <hr />
-                <div className="card">
-                  <div className="card-body">
-                    <div className="chart-container1">
-                      <BarChartVendedoresCotizados />
-                    </div>
-                  </div>
-                </div>
-
-                {/*Inicio de la tabla */}
-                <h6 className="mb-0 text-uppercase">Resumen de Usuarios</h6>
-                <hr />
-                <div className="card">
-                  <div className="card-body">
-                    <ResumenUsuarios />
-                  </div>
-                </div>
-                {/*Fin de la tabla */}
-              </div>
+  <div className="col-xl-9 mx-auto">
+    {/* Ingresos por Anuncios y Ventas por tienda en el mismo contenedor */}
+    <div className="card">
+      <div className="card-body">
+        <div className="row">
+          <div className="col-md-6">
+            <h6 className="mb-0 text-uppercase">Ingresos por Anuncios</h6>
+            <hr />
+            <div className="chart-container1">
+              <LineChart />
             </div>
+          </div>
+
+          <div className="col-md-6">
+            <h6 className="mb-0 text-uppercase">Ventas por tienda</h6>
+            <hr />
+            <div className="chart-container1">
+              <BarChart />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Productos más vendidos y Vendedores cotizados en el mismo contenedor */}
+    <div className="card mt-4">
+      <div className="card-body">
+        <div className="row">
+          <div className="col-md-6">
+            <h6 className="mb-0 text-uppercase">Productos más vendidos</h6>
+            <hr />
+            <div className="chart-container1">
+              <PieChart />
+            </div>
+          </div>
+
+          <div className="col-md-6">
+            <h6 className="mb-0 text-uppercase">Vendedores cotizados</h6>
+            <hr />
+            <div className="chart-container1">
+              <BarChartVendedoresCotizados />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Tabla de Resumen de Usuarios */}
+    <hr />
+    <div className="card mt-4">
+
+      <div className="card-body">
+    <h6 className="mb-2 text-uppercase">Resumen de Usuarios</h6>
+
+        <ResumenUsuarios />
+      </div>
+    </div>
+    {/* Fin de la tabla */}
+  </div>
+</div>
+
             {/*end row*/}
           </div>
         </div>
