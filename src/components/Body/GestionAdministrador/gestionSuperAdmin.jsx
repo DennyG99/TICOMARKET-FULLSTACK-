@@ -74,7 +74,19 @@ const GestionSuperAdmin = () => {
 
 function AgregarUsuario() {
   const [roles, setRoles] = useState([]);
+  const [estado, setEstado] = useState([]);
 
+  useEffect(() => {
+    axios
+      .get(`${endpoint}/estado`)
+      .then((response) => {
+        setEstado(response.data.data);
+      })
+      .catch((error) => {
+        console.error("Error al obtener los datos:", error);
+      });
+  }, []);
+  
   useEffect(() => {
     // Realizar la solicitud GET al endpoint
     axios
@@ -323,8 +335,12 @@ function AgregarUsuario() {
                       required
                     >
                       <option>Seleccionar Estado</option>
-                      <option key={1} value={1}>Activo</option>
-                      <option key={2} value={2}>Inactivo</option>
+                      {estado.map((estado) => (
+                      <option key={estado.id} value={estado.id}>
+                        {estado.nombre}
+                      </option>
+                    ))}
+                    
                     </select>
                   </div>
                 </form>
