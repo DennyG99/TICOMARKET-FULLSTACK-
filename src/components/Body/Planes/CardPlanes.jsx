@@ -119,6 +119,7 @@ const CardPlanes = () => {
                         <td>{obtenerNombreEstado(plan.idEstado)}</td>
                         <td>
                           <EditarPlan
+                      
                             handleEditarClick={handleEditarClick}
                             planId={plan.idPlan}
                             actualizarPlanes={actualizarPlanes}

@@ -72,14 +72,14 @@ export function EditarPlan({
       <button
         className="btn btn-success btn-sm m-1"
         data-bs-toggle="modal"
-        data-bs-target="#editarPlan"
+        data-bs-target={"#editarPlan"+planId}
         onClick={() => handleEditarClick(planId)}
       >
         Editar
       </button>
       <div
         className="modal fade"
-        id="editarPlan"
+        id={"editarPlan"+planId}
         tabIndex={-1}
         aria-labelledby="myModalLabel"
         aria-hidden="true"

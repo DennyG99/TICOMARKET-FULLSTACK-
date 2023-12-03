@@ -3,8 +3,10 @@ import { useEffect,useState } from "react";
 import { NuevaPolitica } from "./NuevaPolitica";
 import { EditarPolitica } from "./EditarPolitica";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const CardPoliticas = () => {
+  
   useEffect(() => {
     $("#example").DataTable();
   }, []);
@@ -30,20 +32,36 @@ const CardPoliticas = () => {
 
 const borrarPolitica=(id)=>{
 
-  console.log("Soy id",id);
-  axios
-  .delete(`http://localhost:8000/api/politicas/eliminar/${id}`)
-  .then((response) => {
-    console.log("Datos borrados");
+  Swal.fire({
+    title: "Desea eliminar esta politica?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Eliminar!"
+  }).then((result) => {
 
-  })
-  .catch((error) => {
-    console.error("Error al obtener usuarios:", error);
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: "Se ha borrado la politica!.",
+        icon: "success"
+      });
+      axios
+      .delete(`http://localhost:8000/api/politicas/eliminar/${id}`)
+      .then((response) => {
+        console.log("Datos borrados");
+    
+      })
+      .catch((error) => {
+        console.error("Error al obtener usuarios:", error);
+      });
+    
+    }
   });
 
-
-
 }
+
+
 
 
 

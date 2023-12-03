@@ -5,27 +5,40 @@ import Swal from "sweetalert2";
 const endpoint = "http://127.0.0.1:8000/api";
 
 const GestionSuperAdmin = () => {
-  useEffect(() => {
-    // Inicializa DataTables después de que el componente se monta
-    $("#example").DataTable();
-  }, []);
 
-  const [usuarios, setUsuarios] = useState();
+const [usuario,setUsuario]=useState([]);
+const [dataLoaded,setDataLoaded]=useState(false);
+
 
   useEffect(() => {
-    // Realizar la solicitud GET al endpoint
     axios
       .get(`${endpoint}/usuario`)
       .then((response) => {
-        // Manejar la respuesta exitosa
-        setUsuarios(response.data);
-        console.log(usuarios);
+        setUsuario(response.data);
+        setDataLoaded(true);
       })
       .catch((error) => {
-        // Manejar errores
-        console.error("Error al obtener usuarios:", error);
+        console.error("Error al obtener la lista de planes:", error);
       });
   }, []);
+
+  useEffect(() => {
+    if (dataLoaded) {
+      $("#example").DataTable();
+    }
+  }, [dataLoaded, usuario]);
+
+  const actualizarUsuarios = () => {
+    axios
+      .get(`${endpoint}/usuario`)
+      .then((response) => {
+        $("#example").DataTable().destroy();
+        setUsuario(response.data);
+      })
+      .catch((error) => {
+        console.error("Error al obtener la lista de planes:", error);
+      });
+  };
 
   return (
     <div className="container container-inPage">
@@ -36,7 +49,9 @@ const GestionSuperAdmin = () => {
               Super administrador - Usuarios Registrados
             </h6>
             <div className="mt-3 ">
-              <AgregarUsuario />
+              <AgregarUsuario
+              actualizarUsuarios={actualizarUsuarios}
+              />
             </div>
             <br />
 
@@ -55,13 +70,16 @@ const GestionSuperAdmin = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>Edinburgh</td>
-                    <td>61</td>
-                  </tr>
-                  {/* Agrega más filas según sea necesario */}
+                {usuario.map((user) => (
+                      <tr key={user.nombre}>
+                        <td>{user.nombre}</td>
+                        <td>{user.correo}</td>
+                        <td>{user.estado}</td>
+                        <td>{user.rol}</td>
+
+              
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>
@@ -72,7 +90,7 @@ const GestionSuperAdmin = () => {
   );
 };
 
-function AgregarUsuario() {
+function AgregarUsuario(props) {
   const [roles, setRoles] = useState([]);
   const [estado, setEstado] = useState([]);
 
@@ -125,7 +143,7 @@ function AgregarUsuario() {
   const ingresarUsuario=()=>{
     axios.post('http://localhost:8000/api/usuario/insertar',formData)
     .then((response)=>{
-
+      props.actualizarUsuarios();
    
     }).catch((e)=>{
       console.log(formData);
