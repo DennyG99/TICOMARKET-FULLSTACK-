@@ -96,8 +96,7 @@ const CardPoliticas = () => {
                 </thead>
                 <tbody>
                   {politicas.map((politica) => (
-                    <>
-                      <tr>
+                      <tr key={politica.idPolitica }>
                         <td>{politica.nombre}</td>
                         <td>{politica.descripcion}</td>
                         <td>{politica.idEstado}</td>
@@ -119,7 +118,6 @@ const CardPoliticas = () => {
                           </button>
                         </td>
                       </tr>
-                    </>
                   ))}
                 </tbody>
               </table>

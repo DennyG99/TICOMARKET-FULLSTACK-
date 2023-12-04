@@ -14,6 +14,30 @@ export function NuevoPlan(props) {
 
   let message = "";
 
+  const validarCampos = () => {
+    if (
+      !nombre ||
+      !descripcion ||
+      !tipoPlan ||
+      !precio ||
+      !estadoSeleccionado
+    ) {
+      error((message = "Por favor llene todos los campos"));
+      return false;
+    }
+    return true;
+  };
+
+  const validarCamposNumericos = () => {
+    if (isNaN(parseFloat(precio)) || !isFinite(precio)) {
+      error(
+        (message = "Por favor ingrese un valor numérico válido para el precio")
+      );
+      return false;
+    }
+    return true;
+  };
+
   const handleNombreChange = (e) => {
     setNombre(e.target.value);
   };
@@ -34,15 +58,25 @@ export function NuevoPlan(props) {
     setEstadoSeleccionado(e.target.value);
   };
 
+  const handleClose = () => {
+    setNombre("");
+    setDescripcion("");
+    setTipoPlan("");
+    setPrecio("");
+    setEstadoSeleccionado("");
+  };
+
+  useEffect(() => {
+    const modalElement = document.getElementById("nuevoPlan");
+    modalElement.addEventListener("hidden.bs.modal", handleClose);
+
+    return () => {
+      modalElement.removeEventListener("hidden.bs.modal", handleClose);
+    };
+  }, []);
+
   const handleGuardarClick = () => {
-    if (
-      !nombre ||
-      !descripcion ||
-      !tipoPlan ||
-      !precio ||
-      !estadoSeleccionado
-    ) {
-      error((message = "Por favor llene todos los campos"));
+    if (!validarCampos() || !validarCamposNumericos()) {
       return;
     }
 
