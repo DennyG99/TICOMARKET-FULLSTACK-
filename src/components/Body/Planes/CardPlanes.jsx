@@ -29,7 +29,7 @@ const CardPlanes = () => {
     axios
       .get(`${endpoint}/estado`)
       .then((response) => {
-        setEstados(response.data.data);
+        setEstados(response.data);
       })
       .catch((error) => {
         console.error("Error al obtener la lista de estados:", error);
@@ -119,7 +119,6 @@ const CardPlanes = () => {
                         <td>{obtenerNombreEstado(plan.idEstado)}</td>
                         <td>
                           <EditarPlan
-                      
                             handleEditarClick={handleEditarClick}
                             planId={plan.idPlan}
                             actualizarPlanes={actualizarPlanes}

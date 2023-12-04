@@ -98,7 +98,7 @@ function AgregarUsuario(props) {
     axios
       .get(`${endpoint}/estado`)
       .then((response) => {
-        setEstado(response.data.data);
+        setEstado(response.data);
       })
       .catch((error) => {
         console.error("Error al obtener los datos:", error);

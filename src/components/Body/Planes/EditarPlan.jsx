@@ -1,4 +1,3 @@
-// EditarPlan.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { success } from "./Alerts";
@@ -23,7 +22,7 @@ export function EditarPlan({
     axios
       .get(`${endpoint}/estado`)
       .then((response) => {
-        setEstado(response.data.data);
+        setEstado(response.data);
       })
       .catch((error) => {
         console.error("Error al obtener los datos:", error);
@@ -50,8 +49,7 @@ export function EditarPlan({
         idEstado: estadoSeleccionado,
       })
       .then((response) => {
-       
-        success(message= "Plan editado de forma correcta");
+        success((message = "Plan editado de forma correcta"));
 
         $("#editarPlan").modal("hide");
         actualizarPlanes();
@@ -72,14 +70,14 @@ export function EditarPlan({
       <button
         className="btn btn-success btn-sm m-1"
         data-bs-toggle="modal"
-        data-bs-target={"#editarPlan"+planId}
+        data-bs-target={"#editarPlan" + planId}
         onClick={() => handleEditarClick(planId)}
       >
         Editar
       </button>
       <div
         className="modal fade"
-        id={"editarPlan"+planId}
+        id={"editarPlan" + planId}
         tabIndex={-1}
         aria-labelledby="myModalLabel"
         aria-hidden="true"

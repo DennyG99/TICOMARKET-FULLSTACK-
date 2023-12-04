@@ -1,19 +1,18 @@
 import React from "react";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 
 const endpoint = "http://127.0.0.1:8000/api";
 
 export function EditarPolitica(props) {
+  
   const [estado, setEstado] = useState([]);
-  //console.log(props);
   const [formData, setFormData] = useState({
     nombre: props.nombre,
     descripcion: props.descripcion,
     idEstado: props.estado,
   });
- console.log("Soy formdata",formData);
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;
@@ -23,27 +22,29 @@ export function EditarPolitica(props) {
     }));
   };
 
-    useEffect(() => {
+  useEffect(() => {
     axios
       .get(`${endpoint}/estado`)
       .then((response) => {
-        setEstado(response.data.data);
+        setEstado(response.data);
       })
       .catch((error) => {
         console.error("Error al obtener los datos:", error);
       });
   }, []);
 
-console.log("soy formdataCambiando",props.id,formData)
+  console.log("soy formdataCambiando", props.id, formData);
   const editarPolitica = (id) => {
     axios
-      .put(`http://localhost:8000/api/politicas/editar/${id}`, formData)
+      .put(`${endpoint}/politicas/editar/${id}`, formData)
       .then((response) => {
+        props.actualizarPoliticas();
         Swal.fire({
-          icon: 'success',
-          title: 'Datos agregados Correctamente',
+          icon: "success",
+          title: "Datos agregados Correctamente",
         });
       })
+
       .catch((e) => {
         console.log(e);
         alert(e);
@@ -54,14 +55,14 @@ console.log("soy formdataCambiando",props.id,formData)
     if (
       formData.nombre &&
       formData.descripcion &&
-      formData.idEstado !== 'Seleccionar Estado'
+      formData.idEstado !== "Seleccionar Estado"
     ) {
-      console.log('Datos del formulario:', formData);
+      console.log("Datos del formulario:", formData);
       editarPolitica(props.id);
     } else {
       Swal.fire({
-        icon: 'warning',
-        title: 'Existen campos vacíos',
+        icon: "warning",
+        title: "Existen campos vacíos",
       });
     }
   };
@@ -71,14 +72,14 @@ console.log("soy formdataCambiando",props.id,formData)
       <button
         className="btn btn-success btn-sm m-1"
         data-bs-toggle="modal"
-        data-bs-target={"#editarPolitica"+props.id}
+        data-bs-target={"#editarPolitica" + props.id}
       >
         Editar
       </button>
 
       <div
         className="modal fade"
-        id={"editarPolitica"+props.id}
+        id={"editarPolitica" + props.id}
         tabIndex="-1"
         aria-labelledby="myModalLabel"
         aria-hidden="true"
@@ -152,7 +153,7 @@ console.log("soy formdataCambiando",props.id,formData)
               <button
                 type="button"
                 className="btn btn-primary"
-               onClick={handleSaveClick}
+                onClick={handleSaveClick}
               >
                 Guardar
               </button>

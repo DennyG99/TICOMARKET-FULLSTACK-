@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios';
+import axios from "axios";
 import { success, error } from "./Alerts";
 
-const endpoint = 'http://127.0.0.1:8000/api';
+const endpoint = "http://127.0.0.1:8000/api";
 
 export function NuevoPlan(props) {
-
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [tipoPlan, setTipoPlan] = useState("");
   const [precio, setPrecio] = useState("");
   const [estado, setEstado] = useState([]);
   const [estadoSeleccionado, setEstadoSeleccionado] = useState("");
-  
+
   let message = "";
 
   const handleNombreChange = (e) => {
@@ -36,22 +35,28 @@ export function NuevoPlan(props) {
   };
 
   const handleGuardarClick = () => {
-    if (!nombre || !descripcion || !tipoPlan || !precio || !estadoSeleccionado) {
-      error(message="Por favor llene todos los campos");
+    if (
+      !nombre ||
+      !descripcion ||
+      !tipoPlan ||
+      !precio ||
+      !estadoSeleccionado
+    ) {
+      error((message = "Por favor llene todos los campos"));
       return;
     }
-  
-    axios.post(`${endpoint}/planes/crear`, {
-      nombre: nombre,
-      descripcion: descripcion,
-      tipoPlan: tipoPlan,
-      precio: precio,
-      idEstado: estadoSeleccionado
-    })
-      .then(response => {
 
-        success(message="Plan creado exitosamente");
-        
+    axios
+      .post(`${endpoint}/planes/crear`, {
+        nombre: nombre,
+        descripcion: descripcion,
+        tipoPlan: tipoPlan,
+        precio: precio,
+        idEstado: estadoSeleccionado,
+      })
+      .then((response) => {
+        success((message = "Plan creado exitosamente"));
+
         setNombre("");
         setDescripcion("");
         setTipoPlan("");
@@ -59,19 +64,19 @@ export function NuevoPlan(props) {
         setEstadoSeleccionado("");
 
         props.actualizarPlanes();
-
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error al crear el plan:", error);
       });
-  }
+  };
 
   useEffect(() => {
-    axios.get(`${endpoint}/estado`)
-      .then(response => {
-        setEstado(response.data.data);
+    axios
+      .get(`${endpoint}/estado`)
+      .then((response) => {
+        setEstado(response.data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error al obtener los datos:", error);
       });
   }, []);
@@ -109,7 +114,6 @@ export function NuevoPlan(props) {
             </div>
             <div className="modal-body">
               <form>
-
                 <div className="form-group">
                   <label htmlFor="nombre">Nombre del plan</label>
                   <input
@@ -166,13 +170,16 @@ export function NuevoPlan(props) {
                     value={estadoSeleccionado}
                     onChange={handleEstadoChange}
                   >
-                    <option value="" disabled>Selecciona un estado</option>
-                    {estado.map(estado => (
-                      <option key={estado.id} value={estado.id}>{estado.nombre}</option>
+                    <option value="" disabled>
+                      Selecciona un estado
+                    </option>
+                    {estado.map((estado) => (
+                      <option key={estado.id} value={estado.id}>
+                        {estado.nombre}
+                      </option>
                     ))}
                   </select>
                 </div>
-
               </form>
             </div>
             <div className="modal-footer">

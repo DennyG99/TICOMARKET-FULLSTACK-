@@ -1,71 +1,58 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
-export function NuevaPolitica() {
 
+export function NuevaPolitica(props) {
+  const endpoint = "http://127.0.0.1:8000/api";
+  const [formData, setFormData] = useState({
+    nombre: "",
+    descripcion: "",
+    idEstado: "Seleccionar Estado",
+  });
 
-const [formData,setFormData]=useState({
-  nombre: "",
-  descripcion: "",
-  idEstado: "Seleccionar Estado"
-});
+  const handleInputChange = (event) => {
+    const { id, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [id]: value,
+    }));
+  };
 
+  const ingresarPolitica = () => {
+    axios
+      .post("http://localhost:8000/api/politicas/crear", formData)
+      .then((response) => {
+        props.actualizarPoliticas();
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
+  const handleSaveClick = () => {
+    if (
+      formData.nombre &&
+      formData.descripcion &&
+      formData.idEstado !== "Seleccionar Estado"
+    ) {
 
-const handleInputChange = (event) => {
-  const { id, value } = event.target;
-  setFormData((prevFormData) => ({
-    ...prevFormData,
-    [id]: value,
-  }));
-};
-
-const ingresarPolitica=()=>{
-  axios.post('http://localhost:8000/api/politicas/crear',formData).then((response)=>{
-
- 
-  }).catch((e)=>{
-    console.log(e);
-    alert(e);
-  })
-}
-
-
-
-
-const handleSaveClick = () => {
-  // Validar que todos los campos obligatorios estén llenos
-  if (
-    formData.nombre &&
-    formData.descripcion &&
-    formData.idEstado !== 'Seleccionar Estado'
-  ) {
-    // Aquí puedes usar el objeto formData como lo necesites
-    console.log('Datos del formulario:', formData);
-
-    // Puedes realizar acciones adicionales aquí, como enviar los datos a un backend
-    // ...\
-    
-
-    // Limpiar el formulario después de guardar
-    setFormData({
-      nombre: '',
-      descripcion: '',
-      idEstado: 'Seleccionar Estado',
-    });
-    ingresarPolitica();
-    Swal.fire({
-      icon: "success",
-      title: "Datos agregados Correctamente",
-    });
-   
-  } else {
-    Swal.fire({
-      icon: "warning",
-      title: "Existen campos vacios",
-    });
-  }
-};
+      setFormData({
+        nombre: "",
+        descripcion: "",
+        idEstado: "Seleccionar Estado",
+      });
+      ingresarPolitica();
+      Swal.fire({
+        icon: "success",
+        title: "Datos agregados Correctamente",
+      });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Existen campos vacios",
+      });
+    }
+  };
 
   return (
     <>
@@ -125,20 +112,23 @@ const handleSaveClick = () => {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="estado">Estado</label>
-                    <select
-                      className="form-control"
-                      id="idEstado"
-                      value={formData.idEstado}
-                      onChange={handleInputChange}
-                      required
-                    >
-                      <option>Seleccionar Estado</option>
-                      <option key={1} value={1}>Activo</option>
-                      <option key={2} value={2}>Inactivo</option>
-                    </select>
-                  </div>
-
+                  <label htmlFor="estado">Estado</label>
+                  <select
+                    className="form-control"
+                    id="idEstado"
+                    value={formData.idEstado}
+                    onChange={handleInputChange}
+                    required
+                  >
+                    <option>Seleccionar Estado</option>
+                    <option key={1} value={1}>
+                      Activo
+                    </option>
+                    <option key={2} value={2}>
+                      Inactivo
+                    </option>
+                  </select>
+                </div>
               </form>
             </div>
             <div className="modal-footer">
@@ -149,7 +139,11 @@ const handleSaveClick = () => {
               >
                 Cerrar
               </button>
-              <button type="button" className="btn btn-primary" onClick={handleSaveClick}>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={handleSaveClick}
+              >
                 Guardar
               </button>
             </div>

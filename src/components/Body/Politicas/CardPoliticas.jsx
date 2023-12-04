@@ -1,70 +1,72 @@
 import React from "react";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { NuevaPolitica } from "./NuevaPolitica";
 import { EditarPolitica } from "./EditarPolitica";
 import axios from "axios";
 import Swal from "sweetalert2";
 
 const CardPoliticas = () => {
-  
-  useEffect(() => {
-    $("#example").DataTable();
-  }, []);
-
-
+  const [dataLoaded, setDataLoaded] = useState(false);
   const [politicas, setPoliticas] = useState([]);
+  const endpoint = "http://127.0.0.1:8000/api";
 
   useEffect(() => {
-    // Realizar la solicitud GET al endpoint
     axios
-      .get(`http://localhost:8000/api/politicas`)
+      .get(`${endpoint}/politicas`)
       .then((response) => {
-        // Manejar la respuesta exitosa
         setPoliticas(response.data);
+        setDataLoaded(true);
         console.log(politicas);
       })
       .catch((error) => {
-        // Manejar errores
         console.error("Error al obtener usuarios:", error);
       });
   }, []);
 
+  useEffect(() => {
+    if (dataLoaded) {
+      $("#example").DataTable();
+    }
+  }, [dataLoaded, politicas]);
 
-const borrarPolitica=(id)=>{
-
-  Swal.fire({
-    title: "Desea eliminar esta politica?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Eliminar!"
-  }).then((result) => {
-
-    if (result.isConfirmed) {
-      Swal.fire({
-        title: "Se ha borrado la politica!.",
-        icon: "success"
-      });
-      axios
-      .delete(`http://localhost:8000/api/politicas/eliminar/${id}`)
+  const actualizarPoliticas = () => {
+    axios
+      .get(`${endpoint}/politicas`)
       .then((response) => {
-        console.log("Datos borrados");
-    
+        $("#example").DataTable().destroy();
+        setPoliticas(response.data);
       })
       .catch((error) => {
-        console.error("Error al obtener usuarios:", error);
+        console.error("Error al obtener la lista de politicas:", error);
       });
-    
-    }
-  });
+  };
 
-}
-
-
-
-
-
+  const borrarPolitica = (id) => {
+    Swal.fire({
+      title: "Desea eliminar esta politica?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Eliminar!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Se ha borrado la politica!.",
+          icon: "success",
+        });
+        axios
+          .delete(`${endpoint}/politicas/eliminar/${id}`)
+          .then((response) => {
+            actualizarPoliticas();
+            console.log("Datos borrados");
+          })
+          .catch((error) => {
+            console.error("Error al obtener usuarios:", error);
+          });
+      }
+    });
+  };
 
   return (
     <div className="container-inPage">
@@ -73,7 +75,9 @@ const borrarPolitica=(id)=>{
           <div className="card-body">
             <h3 className="mb-0 text-uppercase">Gestión de políticas</h3>
             <div className="mt-3 ">
-              <NuevaPolitica></NuevaPolitica>
+              <NuevaPolitica
+                actualizarPoliticas={actualizarPoliticas}
+              ></NuevaPolitica>
             </div>
             <br />
             <div className="table-responsive">
@@ -91,33 +95,32 @@ const borrarPolitica=(id)=>{
                   </tr>
                 </thead>
                 <tbody>
-                
-                  {politicas.map(politica => (
-              <>
-                <tr>
-                 <td>{politica.nombre}</td>
-                    <td>{politica.descripcion}</td>
-                    <td>{politica.idEstado}</td>
-                    <td>
-                  
-                      
-                      <EditarPolitica
-                      nombre={politica.nombre}
-                      descripcion={politica.descripcion}
-                      estado={politica.idEstado}
-                      id={politica.idPolitica}
-                      ></EditarPolitica>
-                      <button className="btn btn-danger btn-sm m-1" onClick={()=>{borrarPolitica(politica.idPolitica)}}>
-                        Eliminar
-                      </button>
-    
-                      </td>
+                  {politicas.map((politica) => (
+                    <>
+                      <tr>
+                        <td>{politica.nombre}</td>
+                        <td>{politica.descripcion}</td>
+                        <td>{politica.idEstado}</td>
+                        <td>
+                          <EditarPolitica
+                            nombre={politica.nombre}
+                            descripcion={politica.descripcion}
+                            estado={politica.idEstado}
+                            id={politica.idPolitica}
+                            actualizarPoliticas={actualizarPoliticas}
+                          ></EditarPolitica>
+                          <button
+                            className="btn btn-danger btn-sm m-1"
+                            onClick={() => {
+                              borrarPolitica(politica.idPolitica);
+                            }}
+                          >
+                            Eliminar
+                          </button>
+                        </td>
                       </tr>
-              
-              
-              </>
-                ))}          
-                 
+                    </>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -126,6 +129,6 @@ const borrarPolitica=(id)=>{
       </div>
     </div>
   );
-}
+};
 
 export default CardPoliticas;
