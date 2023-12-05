@@ -6,7 +6,7 @@ import axios from "axios";
 const endpoint = "http://127.0.0.1:8000/api";
 
 export function EditarPolitica(props) {
-  
+
   const [estado, setEstado] = useState([]);
   const [formData, setFormData] = useState({
     nombre: props.nombre,
@@ -33,7 +33,6 @@ export function EditarPolitica(props) {
       });
   }, []);
 
-  console.log("soy formdataCambiando", props.id, formData);
   const editarPolitica = (id) => {
     axios
       .put(`${endpoint}/politicas/editar/${id}`, formData)

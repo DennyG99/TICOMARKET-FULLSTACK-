@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 
 export function NuevaPolitica(props) {
+  
   const endpoint = "http://127.0.0.1:8000/api";
   const [formData, setFormData] = useState({
     nombre: "",
@@ -53,6 +54,7 @@ export function NuevaPolitica(props) {
       });
     }
   };
+
 
   return (
     <>

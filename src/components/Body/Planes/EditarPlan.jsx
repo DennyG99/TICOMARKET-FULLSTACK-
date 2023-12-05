@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { success } from "./Alerts";
+import { success, error } from "./Alerts";
 
 export function EditarPlan({
   handleEditarClick,
@@ -39,7 +39,34 @@ export function EditarPlan({
     }
   }, [planId, planData]);
 
+  const validarCamposNumericos = () => {
+    if (isNaN(parseFloat(precio)) || !isFinite(precio)) {
+      error(
+        (message = "Por favor ingrese un valor numérico válido para el precio")
+      );
+      return false;
+    }
+    return true;
+  };
+
+  const validarCampos = () => {
+    if (
+      !nombre ||
+      !descripcion ||
+      !tipoPlan ||
+      !precio ||
+      !estadoSeleccionado
+    ) {
+      error((message = "Por favor llene todos los campos"));
+      return false;
+    }
+    return true;
+  };
+
   const handleGuardarClick = () => {
+    if (!validarCampos() || !validarCamposNumericos()) {
+      return;
+    }
     axios
       .put(`${endpoint}/planes/editar/${planId}`, {
         nombre,
