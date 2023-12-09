@@ -1,6 +1,38 @@
 import React from "react";
 
+const getUserName = () => {
+  const userData = localStorage.getItem("userData");
+  if (userData) {
+    const user = JSON.parse(userData);
+    let userNameComplete = user.nombre + " " + user.apellidoUno;
+    return userNameComplete;
+  }
+  return null;
+};
+const getRoleName = (roleId) => {
+  const roleMappings = {
+    1: "Administrador",
+    // Agrega más mapeos según sea necesario
+  };
+
+  return roleMappings[roleId] || "Desconocido";
+};
+
+
+const getUserRole = () => {
+  const userData = localStorage.getItem("userData");
+  if (userData) {
+    const user = JSON.parse(userData);
+    return getRoleName(user.idRol);
+  }
+  return "Desconocido";
+};
+
 const Header = () => {
+  // Obtén el nombre del usuario
+  const userName = getUserName();
+  const userRole = getUserRole();
+
   return (
     <>
       <header>
@@ -548,15 +580,12 @@ const Header = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <img
-                  src="assets/images/avatars/avatar-2.png"
-                  className="user-img"
-                  alt="user avatar"
-                />
-                <div className="user-info ps-3">
-                  <p className="user-name mb-0">Pauline Seitz</p>
-                  <p className="designattion mb-0">Web Designer</p>
-                </div>
+                {userName && (
+                  <div className="user-info ps-3">
+                    <p className="user-name mb-0">{userName}</p>
+                    <p className="designattion mb-0">{userRole}</p>
+                  </div>
+                )}
               </a>
               <ul className="dropdown-menu dropdown-menu-end">
                 <li>
