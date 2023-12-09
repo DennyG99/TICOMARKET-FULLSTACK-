@@ -1,6 +1,6 @@
 import React from "react";
 import axios from 'axios';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js'
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Pie } from "react-chartjs-2";
 import { useState, useEffect } from "react";
 
@@ -16,7 +16,16 @@ const PieChart = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${endpoint}/productos-mas-vendidos`);
+                const token = localStorage.getItem("token");
+                if (!token) {
+                    console.error("No se encontró el token");
+                    return;
+                }
+                const response = await axios.get(`${endpoint}/productos-mas-vendidos`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
                 const datos = response.data;
 
                 const nuevosNombreProductos = datos.map(nombreProducto => nombreProducto.Nombre_Producto);
@@ -28,41 +37,41 @@ const PieChart = () => {
                 console.error('Error al obtener los datos:', error.message);
             }
         };
-        fetchData(); 
-    }, []); 
+        fetchData();
+    }, []);
 
-var options = {
-    responsive: true,
-    maintainsAspectRatio: false,
-};
+    var options = {
+        responsive: true,
+        maintainsAspectRatio: false,
+    };
 
-var data = {
-    labels: nombreProducto,
-    datasets: [
-        {
-            label: 'Popularidad en Navidad',
-            data: precio,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-            ],
-            borderColor:[
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-            ],
-            borderWidth: 1,
-        },
-    ],
-};
+    var data = {
+        labels: nombreProducto,
+        datasets: [
+            {
+                label: 'Popularidad en Navidad',
+                data: precio,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                ],
+                borderWidth: 1,
+            },
+        ],
+    };
 
 
-    return <Pie data ={data} options={options} />
+    return <Pie data={data} options={options} />
 }
 
 export default PieChart;

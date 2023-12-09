@@ -33,9 +33,18 @@ const BarChart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${endpoint}/ventas-por-tienda`);
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No se encontró el token");
+          return;
+        }
+        const response = await axios.get(`${endpoint}/ventas-por-tienda`, {
+          headers:{
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const datos = response.data;
-        console.log(datos);
+  
 
         const nuevasCantidadVentas = datos.map(
           (cantidadVenta) => cantidadVenta.cantidadVentas
