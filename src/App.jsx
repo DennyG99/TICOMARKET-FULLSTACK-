@@ -22,6 +22,7 @@ import ResumenesEstadisticos from "./components/Body/ResumenesEstadisticos/Resum
 import GestionUsuario from "./components/Body/GestionUsuario/GestionUsuario.jsx";
 import GestionarVendedores from "./components/Body/Vendedores/GestionarVendedores.jsx";
 import MonitorearActividades from "./components/Body/MonitorearActividades/monitorearActividades.jsx";
+import { Products } from "./components/Body/TicoMarket/Products.jsx";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
