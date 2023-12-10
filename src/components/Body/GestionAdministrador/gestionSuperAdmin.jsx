@@ -121,6 +121,7 @@ function AgregarUsuario(props) {
   }, []);
 
   const [formData, setFormData] = useState({
+    cedula:'',
     nombre: '',
     apellidoUno:'',
     apellidoDos:'',
@@ -157,6 +158,7 @@ function AgregarUsuario(props) {
   const handleSaveClick = () => {
     // Validar que todos los campos obligatorios estén llenos
     if (
+      formData.cedula &&
       formData.nombre &&
       formData.apellidoUno &&
       formData.apellidoDos &&
@@ -175,6 +177,7 @@ function AgregarUsuario(props) {
 
       // Limpiar el formulario después de guardar
       setFormData({
+        cedula:'',
         nombre: '',
         apellidoUno: '',
         apellidoDos: '',
@@ -273,17 +276,19 @@ function AgregarUsuario(props) {
                     />
                   </div>
 
-
-
-
-
-
-
-
-
-
-
-
+                
+                  <div className="form-group">
+                    <label htmlFor="cedula">Cedula</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="cedula"
+                      placeholder="Ingrese su cedula"
+                      value={formData.cedula}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
 
 
 

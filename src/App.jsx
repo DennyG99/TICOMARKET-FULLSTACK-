@@ -17,11 +17,11 @@ import ApartadoEstadosV2 from "./components/Body/GestionarEstados/ApartadoEstado
 import CardPoliticas from "./components/Body/Politicas/CardPoliticas.jsx";
 import CardPlanes from "./components/Body/Planes/CardPlanes.jsx";
 import GestionModerador from "./components/Body/GestionAdministrador/GestionModerador.jsx";
-import GestionSuperAdmin from "./components/Body/GestionAdministrador/GestionSuperAdmin.jsx";
 import ResumenesEstadisticos from "./components/Body/ResumenesEstadisticos/ResumenesEstadisticos.jsx";
 import GestionUsuario from "./components/Body/GestionUsuario/GestionUsuario.jsx";
-import GestionarVendedores from "./components/Body/Vendedores/GestionarVendedores.jsx";
 import MonitorearActividades from "./components/Body/MonitorearActividades/monitorearActividades.jsx";
+import CardVendedoresD from "./components/Body/Vendedores/CardVendedor.jsx";
+import GestionSuperAdmin from "./components/Body/GestionAdministrador/gestionSuperAdmin.jsx";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -54,9 +54,9 @@ function App() {
             <Route path="/politicas" element={<CardPoliticas />} />
             <Route path="/planes" element={<CardPlanes />} />
             <Route path="/moderador" element={<GestionModerador />} />
-            <Route path="/administradores" element={<GestionSuperAdmin />} />
+            <Route path="/administradores" element={<GestionSuperAdmin></GestionSuperAdmin>} />
             <Route path="/usuarios" element={<GestionUsuario />} />
-            <Route path="/vendedores" element={<GestionarVendedores />} />
+            <Route path="/vendedores" element={<CardVendedoresD />} />
             <Route path="/monitoreo" element={<MonitorearActividades />} />
           </Routes>
           <Footer />
