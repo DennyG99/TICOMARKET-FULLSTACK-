@@ -21,7 +21,11 @@ export function NuevaPolitica(props) {
 
   const ingresarPolitica = () => {
     axios
-      .post("http://localhost:8000/api/politicas/crear", formData)
+      .post("http://localhost:8000/api/politicas/crear", formData, {
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      },)
       .then((response) => {
         props.actualizarPoliticas();
       })
@@ -103,13 +107,13 @@ export function NuevaPolitica(props) {
 
                 <div className="form-group">
                   <label htmlFor="correo">Descripcion</label>
-                  <input
+                  <textarea
                     type="email"
                     className="form-control"
                     id="descripcion"
                     value={formData.descripcion}
                     onChange={handleInputChange}
-                    placeholder="Ingrese el correo"
+                    placeholder="Ingrese la descripción"
                   />
                 </div>
 

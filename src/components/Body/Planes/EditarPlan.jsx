@@ -20,7 +20,11 @@ export function EditarPlan({
 
   useEffect(() => {
     axios
-      .get(`${endpoint}/estado`)
+      .get(`${endpoint}/estado`, {
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      },)
       .then((response) => {
         setEstado(response.data);
       })
@@ -74,7 +78,11 @@ export function EditarPlan({
         tipoPlan,
         precio,
         idEstado: estadoSeleccionado,
-      })
+      }, {
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      },)
       .then((response) => {
         success((message = "Plan editado de forma correcta"));
 

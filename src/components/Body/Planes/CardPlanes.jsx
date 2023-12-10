@@ -15,7 +15,11 @@ const CardPlanes = () => {
 
   useEffect(() => {
     axios
-      .get(`${endpoint}/planes`)
+      .get(`${endpoint}/planes`, {
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      },)
       .then((response) => {
         setPlanes(response.data);
         setDataLoaded(true);
@@ -27,7 +31,11 @@ const CardPlanes = () => {
 
   useEffect(() => {
     axios
-      .get(`${endpoint}/estado`)
+      .get(`${endpoint}/estado`, {
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      },)
       .then((response) => {
         setEstados(response.data);
       })
@@ -44,7 +52,11 @@ const CardPlanes = () => {
 
   const actualizarPlanes = () => {
     axios
-      .get(`${endpoint}/planes`)
+      .get(`${endpoint}/planes`, {
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      },)
       .then((response) => {
         $("#example").DataTable().destroy();
         setPlanes(response.data);
@@ -58,7 +70,11 @@ const CardPlanes = () => {
     confirm().then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`${endpoint}/planes/eliminar/${idPlan}`)
+          .delete(`${endpoint}/planes/eliminar/${idPlan}`, {
+            headers:{
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          },)
           .then((response) => {
             success((message = "Plan eliminado exitosamente"));
             actualizarPlanes();

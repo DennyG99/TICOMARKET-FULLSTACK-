@@ -87,7 +87,11 @@ export function NuevoPlan(props) {
         tipoPlan: tipoPlan,
         precio: precio,
         idEstado: estadoSeleccionado,
-      })
+      }, {
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      },)
       .then((response) => {
         success((message = "Plan creado exitosamente"));
 
@@ -106,7 +110,11 @@ export function NuevoPlan(props) {
 
   useEffect(() => {
     axios
-      .get(`${endpoint}/estado`)
+      .get(`${endpoint}/estado`, {
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      },)
       .then((response) => {
         setEstado(response.data);
       })

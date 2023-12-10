@@ -33,9 +33,14 @@ const CardPoliticas = () => {
   const [estados, setEstados] = useState([]);
   const endpoint = "http://127.0.0.1:8000/api";
 
+
   useEffect(() => {
     axios
-      .get(`${endpoint}/politicas`)
+      .get(`${endpoint}/politicas`, {
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
       .then((response) => {
         setPoliticas(response.data);
         setDataLoaded(true);
@@ -48,7 +53,11 @@ const CardPoliticas = () => {
 
   useEffect(() => {
     axios
-      .get(`${endpoint}/estado`)
+      .get(`${endpoint}/estado`, {
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      },)
       .then((response) => {
         setEstados(response.data);
       })
@@ -65,7 +74,11 @@ const CardPoliticas = () => {
 
   const actualizarPoliticas = () => {
     axios
-      .get(`${endpoint}/politicas`)
+      .get(`${endpoint}/politicas`, {
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      },)
       .then((response) => {
         $("#example").DataTable().destroy();
         setPoliticas(response.data);
@@ -90,7 +103,11 @@ const CardPoliticas = () => {
           icon: "success",
         });
         axios
-          .delete(`${endpoint}/politicas/eliminar/${id}`)
+          .delete(`${endpoint}/politicas/eliminar/${id}`, {
+            headers:{
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          },)
           .then((response) => {
             actualizarPoliticas();
             console.log("Datos borrados");

@@ -24,7 +24,11 @@ export function EditarPolitica(props) {
 
   useEffect(() => {
     axios
-      .get(`${endpoint}/estado`)
+      .get(`${endpoint}/estado`, {
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      },)
       .then((response) => {
         setEstado(response.data);
       })
@@ -35,7 +39,11 @@ export function EditarPolitica(props) {
 
   const editarPolitica = (id) => {
     axios
-      .put(`${endpoint}/politicas/editar/${id}`, formData)
+      .put(`${endpoint}/politicas/editar/${id}`, formData, {
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      },)
       .then((response) => {
         props.actualizarPoliticas();
         Swal.fire({
@@ -112,7 +120,7 @@ export function EditarPolitica(props) {
 
                 <div className="form-group">
                   <label htmlFor="descripcion">Descripción</label>
-                  <input
+                  <textarea
                     type="email"
                     className="form-control"
                     id="descripcion"
