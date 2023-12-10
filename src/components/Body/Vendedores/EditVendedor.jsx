@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { success, error } from "./Alerts";
 
+
+const token =localStorage.getItem('token')
+
 export function EditarVendedoresD({
   handleEditarClick,
   planId,
@@ -9,6 +12,7 @@ export function EditarVendedoresD({
   planData,
 }) {
   const endpoint = "http://127.0.0.1:8000/api";
+
 
   const [nombre, setNombre] = useState("");
   const [apellidoUno, setApellidoUno] = useState("");
@@ -24,7 +28,7 @@ export function EditarVendedoresD({
 
   useEffect(() => {
     axios
-      .get(`${endpoint}/estado`)
+      .get(`${endpoint}/estado`,{headers:{Authorization:`Bearer ${token}`}})
       .then((response) => {
         setEstado(response.data);
       })
@@ -35,7 +39,7 @@ export function EditarVendedoresD({
 
   useEffect(() => {
     axios
-      .get(`${endpoint}/roles`)
+      .get(`${endpoint}/roles`,{headers:{Authorization:`Bearer ${token}`}})
       .then((response) => {
         setRol(response.data);
       })
@@ -103,7 +107,7 @@ export function EditarVendedoresD({
         idRol:rolSeleccionado,
         idEstado: estadoSeleccionado,
         telefono
-      })
+      },{headers:{Authorization:`Bearer ${token}`}})
       .then((response) => {
         success((message = "Plan editado de forma correcta"));
 

@@ -5,6 +5,8 @@ import { EditarVendedoresD } from "./EditVendedor";
 
 const endpoint = "http://127.0.0.1:8000/api";
 
+const token =localStorage.getItem('token')
+
 const CardVendedoresD = () => {
   const [usuarios, setUsuarios]=useState([]);
   const [planes, setPlanes] = useState([]);
@@ -17,7 +19,7 @@ const CardVendedoresD = () => {
 
   useEffect(() => {
     axios
-      .get(`${endpoint}/vendedor/mostrar`)
+      .get(`${endpoint}/vendedor/mostrar`,{headers:{Authorization:`Bearer ${token}`}})
       .then((response) => {
         setUsuarios(response.data);
         setDataLoaded(true);
@@ -31,7 +33,7 @@ const CardVendedoresD = () => {
 
   useEffect(() => {
     axios
-      .get(`${endpoint}/estado`)
+      .get(`${endpoint}/estado`,{headers:{Authorization:`Bearer ${token}`}})
       .then((response) => {
         setEstados(response.data);
       })
@@ -48,7 +50,7 @@ const CardVendedoresD = () => {
 
   const actualizarUsuario = () => {
     axios
-      .get(`${endpoint}/vendedor/mostrar`)
+      .get(`${endpoint}/vendedor/mostrar`,{headers:{Authorization:`Bearer ${token}`}})
       .then((response) => {
         $("#example").DataTable().destroy();
         setUsuarios(response.data);
@@ -65,7 +67,7 @@ const CardVendedoresD = () => {
     confirm().then((result) => {
       if (result.isConfirmed) {
         axios
-          .post(`${endpoint}/vendedor/eliminar/${idUser}`)
+          .post(`${endpoint}/vendedor/eliminar/${idUser}`,{headers:{Authorization:`Bearer ${token}`}})
           .then((response) => {
             success((message = "Usuario eliminado de forma correcta"));
             actualizarUsuario();
@@ -88,7 +90,7 @@ const CardVendedoresD = () => {
         <div id="superAdminContainer" className="container">
           <div className="card" id="superAdminCard">
             <div className="card-body">
-              <h3 className="mb-0 text-uppercase">Gestión de planes</h3>
+              <h3 className="mb-0 text-uppercase">Gestión de vendedores</h3>
               <br />
               <div className="table-responsive">
                 <table

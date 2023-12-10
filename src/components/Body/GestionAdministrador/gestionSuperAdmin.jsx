@@ -4,6 +4,9 @@ import Swal from "sweetalert2";
 
 const endpoint = "http://127.0.0.1:8000/api";
 
+
+const token =localStorage.getItem('token')
+
 const GestionSuperAdmin = () => {
 
 const [usuario,setUsuario]=useState([]);
@@ -11,8 +14,9 @@ const [dataLoaded,setDataLoaded]=useState(false);
 
 
   useEffect(() => {
+   
     axios
-      .get(`${endpoint}/usuario`)
+      .get(`${endpoint}/usuario`, {headers:{Authorization: `Bearer ${token}`}})
       .then((response) => {
         setUsuario(response.data);
         setDataLoaded(true);
@@ -30,7 +34,7 @@ const [dataLoaded,setDataLoaded]=useState(false);
 
   const actualizarUsuarios = () => {
     axios
-      .get(`${endpoint}/usuario`)
+      .get(`${endpoint}/usuario`,{headers:{Authorization: `Bearer ${token}`}})
       .then((response) => {
         $("#example").DataTable().destroy();
         setUsuario(response.data);
@@ -96,7 +100,7 @@ function AgregarUsuario(props) {
 
   useEffect(() => {
     axios
-      .get(`${endpoint}/estado`)
+      .get(`${endpoint}/estado`,{headers:{Authorization:`Bearer ${token}`}})
       .then((response) => {
         setEstado(response.data);
       })
@@ -108,7 +112,7 @@ function AgregarUsuario(props) {
   useEffect(() => {
     // Realizar la solicitud GET al endpoint
     axios
-      .get(`http://localhost:8000/api/roles`)
+      .get(`http://localhost:8000/api/roles`,{headers:{Authorization:`Bearer ${token}`}})
       .then((response) => {
         // Manejar la respuesta exitosa
         setRoles(response.data);
@@ -142,7 +146,8 @@ function AgregarUsuario(props) {
 
 
   const ingresarUsuario=()=>{
-    axios.post('http://localhost:8000/api/usuario/insertar',formData)
+    axios.post('http://localhost:8000/api/usuario/insertar',formData,
+    {headers:{Authorization:`Bearer ${token}`}})
     .then((response)=>{
       props.actualizarUsuarios();
    
