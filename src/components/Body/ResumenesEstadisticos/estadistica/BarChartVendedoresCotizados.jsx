@@ -33,9 +33,17 @@ const BarChartVendedoresCotizados = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${endpoint}/vendedores-cotizados`);
+                const token = localStorage.getItem("token");
+                if (!token) {
+                    console.error("No se encontró el token");
+                    return;
+                }
+                const response = await axios.get(`${endpoint}/vendedores-cotizados`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
                 const datos = response.data;
-                console.log(datos);
 
                 const nuevasNombreVendedor = datos.map(nombreVendedor => nombreVendedor.nombreVendedor);
                 const nuevosCantidadVentas = datos.map(cantidadVentas => cantidadVentas.cantidadVentas);

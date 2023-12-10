@@ -33,7 +33,16 @@ const LineChart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${endpoint}/ingresos-por-anuncios`);
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No se encontró el token");
+          return;
+        }
+        const response = await axios.get(`${endpoint}/ingresos-por-anuncios`, {
+          headers:{
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const datos = response.data;
 
         const nuevosIngresos = datos.map((ingreso) => ingreso.ingresoTotal);

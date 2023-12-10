@@ -86,15 +86,13 @@ const ApartadoEstadosV2 = () => {
         confirmButtonText: "Sí, eliminar",
         cancelButtonText: "No, eliminar",
       });
+
       if (result.isConfirmed) {
         const response = await eliminarEstados(id);
-        if (response.status === 200) {
+        if (response.data && response.data.message) {
+          console.log(response);
+          Swal.fire("Error", response.data.message, "error");
           cargarEstados();
-          Swal.fire(
-            "Estado eliminado",
-            "Tu estado ha sido eliminado correctamente.",
-            "success"
-          );
         } else {
           console.error("Error al eliminar el estado", response.status);
           Swal.fire(
