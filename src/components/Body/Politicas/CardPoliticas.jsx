@@ -5,9 +5,32 @@ import { EditarPolitica } from "./EditarPolitica";
 import axios from "axios";
 import Swal from "sweetalert2";
 
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+
+const exportarPDF = () => {
+  const doc = new jsPDF();
+
+  const accionesColumnIndex = 3; 
+  const accionesColumn = $("#example").find("tr").find("td:eq(" + accionesColumnIndex + ")");
+  accionesColumn.hide();
+
+  const accionesHeader = $("#example").find("thead").find("tr").find("th:eq(" + accionesColumnIndex + ")");
+  accionesHeader.hide();
+
+  doc.autoTable({ html: "#example" });
+
+  accionesColumn.show();
+
+  accionesHeader.show();
+
+  doc.save("POLÍTICAS-TICOMARKET.pdf");
+};
+
 const CardPoliticas = () => {
   const [dataLoaded, setDataLoaded] = useState(false);
   const [politicas, setPoliticas] = useState([]);
+  const [estados, setEstados] = useState([]);
   const endpoint = "http://127.0.0.1:8000/api";
 
   useEffect(() => {
@@ -20,6 +43,17 @@ const CardPoliticas = () => {
       })
       .catch((error) => {
         console.error("Error al obtener usuarios:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${endpoint}/estado`)
+      .then((response) => {
+        setEstados(response.data);
+      })
+      .catch((error) => {
+        console.error("Error al obtener la lista de estados:", error);
       });
   }, []);
 
@@ -68,6 +102,11 @@ const CardPoliticas = () => {
     });
   };
 
+  const obtenerNombreEstado = (idEstado) => {
+    const estadoEncontrado = estados.find((e) => e.id === idEstado);
+    return estadoEncontrado ? estadoEncontrado.nombre : "Estado no encontrado";
+  };
+
   return (
     <div className="container-inPage">
       <div id="superAdminContainer" className="container">
@@ -78,6 +117,12 @@ const CardPoliticas = () => {
               <NuevaPolitica
                 actualizarPoliticas={actualizarPoliticas}
               ></NuevaPolitica>
+              <button
+          className="btn btn-danger m-2"
+          onClick={exportarPDF}
+        >
+          Exportar a PDF
+        </button>
             </div>
             <br />
             <div className="table-responsive">
@@ -99,7 +144,7 @@ const CardPoliticas = () => {
                       <tr key={politica.idPolitica }>
                         <td>{politica.nombre}</td>
                         <td>{politica.descripcion}</td>
-                        <td>{politica.idEstado}</td>
+                        <td>{obtenerNombreEstado(politica.idEstado)}</td>
                         <td>
                           <EditarPolitica
                             nombre={politica.nombre}

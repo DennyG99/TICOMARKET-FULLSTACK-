@@ -27,6 +27,7 @@ import GestionUsuario from "./components/Body/GestionUsuario/GestionUsuario.jsx"
 import MonitorearActividades from "./components/Body/MonitorearActividades/monitorearActividades.jsx";
 import CardVendedoresD from "./components/Body/Vendedores/CardVendedor.jsx";
 import GestionSuperAdmin from "./components/Body/GestionAdministrador/gestionSuperAdmin.jsx";
+import { Products } from "./components/Body/TicoMarket/Products.jsx";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
