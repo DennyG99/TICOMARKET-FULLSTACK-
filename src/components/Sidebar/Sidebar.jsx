@@ -1,8 +1,35 @@
 import React from "react";
 import BodyConfig from "../Body/BodyConfig/BodyConfig";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      const headers = {
+        Accept: "application/json",
+        UserAgent: "",
+        Authorization: `Bearer ${token}`,
+      };
+
+      fetch("http://localhost:8000/api/logout", {
+        method: "POST",
+        headers: headers,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          localStorage.removeItem("token");
+          navigate("/login");
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.error("Error al cerrar sesión:", error);
+        });
+    }
+  };
   return (
     <>
       <BodyConfig />
@@ -262,8 +289,15 @@ const Sidebar = () => {
               <div className="menu-title">Support</div>
             </a>
           </li>
+          <li>
+            <a type="button" onClick={handleLogout}>
+              <div className="parent-icon">
+                <i className="bx bx-log-out" />
+              </div>
+              <div className="menu-title">Cerrar Sesión</div>
+            </a>
+          </li>
         </ul>
-        {/*end navigation*/}
       </div>
     </>
   );

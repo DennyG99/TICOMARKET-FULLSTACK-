@@ -9,7 +9,7 @@ const MonitorearActividades = () => {
 
   useEffect(()=>{
     axios
-    .get(`${endpoint}/usuario`)
+    .get(`${endpoint}/bitacora`)
     .then((response)=>{
       setUsuario(response.data)
       setDataLoaded(true)
@@ -45,19 +45,19 @@ const MonitorearActividades = () => {
                 >
                   <thead>
                     <tr>
-                      <th>ID Usuario</th>
-                      <th>Nombre Completo</th>
+                      <th>Correo</th>
                       <th>Rol</th>
                       <th>Fecha de Acceso</th>
+                      <th>Fecha de Salida</th>
                     </tr>
                   </thead>
                   <tbody>
                     {usuarios.map((usuario)=>(
                       <tr key={usuario.id}>
-                        <td>{usuario.id}</td>
-                        <td>{usuario.nombre} {usuario.apellidoUno} {usuario.apellidoDos}</td>
+                        <td>{usuario.correo}</td>
                         <td>{usuario.rol}</td>
-                        <td>{usuario.fechaAcceso}</td>
+                        <td>{usuario.ingreso}</td>
+                        <td>{usuario.salida}</td>
                       </tr>
                     ))}
                   </tbody>

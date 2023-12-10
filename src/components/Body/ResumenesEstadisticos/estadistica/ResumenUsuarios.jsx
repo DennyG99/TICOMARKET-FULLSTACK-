@@ -11,7 +11,16 @@ const ResumenUsuarios = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${endpoint}/estado-usuarios`);
+                const token = localStorage.getItem("token");
+                if (!token) {
+                    console.error("No se encontró el token");
+                    return;
+                }
+                const response = await axios.get(`${endpoint}/estado-usuarios`, {
+                    headers:{
+                      Authorization: `Bearer ${token}`,
+                    },
+                  });
                 setUsuarios(response.data);
                 setDataLoaded(true)
 
@@ -21,14 +30,14 @@ const ResumenUsuarios = () => {
         };
 
         fetchData();
-    }, []); 
+    }, []);
 
     useEffect(() => {
         $("#mytable").DataTable();
-      }, [dataLoaded, usuarios]);
+    }, [dataLoaded, usuarios]);
     useEffect(() => {
         $("#mytable").DataTable().destroy();
-      }, []);
+    }, []);
     return (
         <div>
             <table id="mytable" className="table table-striped table-bordered" style={{ width: '100%' }}>
