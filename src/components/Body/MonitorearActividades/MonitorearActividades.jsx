@@ -4,24 +4,38 @@ import React, { useEffect,useState } from "react";
 const endpoint = "http://127.0.0.1:8000/api";
 
 const MonitorearActividades = () => {
-  const [usuarios, setUsuario] = useState([]);
+  const [bitacoras, setBitacoras] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(()=>{
-    axios
-    .get(`${endpoint}/bitacora`)
-    .then((response)=>{
-      setUsuario(response.data)
-      setDataLoaded(true)
-    })
-    .catch((error)=>{
-      console.log("No se han obtenido correctamente los datos",error)
-    })
+
+    const data = async () =>{
+      try{
+        const token = localStorage.getItem("token");
+
+        if(!token){
+          console.log("No se encontro el token")
+          return;
+        }
+        const response = await axios.get(`${endpoint}/bitacora`, {
+          headers:{
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        
+        console.log(response.data)
+        setBitacoras(response.data)
+        setDataLoaded(true)
+      }catch(error){
+        console.log("Error al obtener los datos",error.message);
+      }
+    }
+    data();
   },[]);
 
   useEffect(() => {
     $("#example").DataTable();
-  }, [dataLoaded, usuarios]);
+  }, [dataLoaded, bitacoras]);
 
   useEffect(() => {
     $("#example").DataTable().destroy();
@@ -52,12 +66,12 @@ const MonitorearActividades = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {usuarios.map((usuario)=>(
-                      <tr key={usuario.id}>
-                        <td>{usuario.correo}</td>
-                        <td>{usuario.rol}</td>
-                        <td>{usuario.ingreso}</td>
-                        <td>{usuario.salida}</td>
+                    {bitacoras.map((bitacora)=>(
+                      <tr key={bitacora.id_usuario}>
+                        <td>{bitacora.correo}</td>
+                        <td>{bitacora.rol}</td>
+                        <td>{bitacora.ingreso}</td>
+                        <td>{bitacora.salida}</td>
                       </tr>
                     ))}
                   </tbody>
