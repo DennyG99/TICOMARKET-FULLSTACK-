@@ -59,6 +59,7 @@ const MonitorearActividades = () => {
                 >
                   <thead>
                     <tr>
+                      <th>ID Sesion</th>
                       <th>Correo</th>
                       <th>Rol</th>
                       <th>Fecha de Acceso</th>
@@ -67,7 +68,8 @@ const MonitorearActividades = () => {
                   </thead>
                   <tbody>
                     {bitacoras.map((bitacora)=>(
-                      <tr key={bitacora.id_usuario}>
+                      <tr key={bitacora.id_sesion}>
+                        <td>{bitacora.id_sesion}</td>
                         <td>{bitacora.correo}</td>
                         <td>{bitacora.rol}</td>
                         <td>{bitacora.ingreso}</td>
