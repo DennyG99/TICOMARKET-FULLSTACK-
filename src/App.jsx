@@ -79,7 +79,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/Verificacion" element={<Verificacion />} />
-            <Route path="/" element={<ResumenesEstadisticos />} />
+            <Route path="/" element={<Login />} />
             <Route path="/dashboard" element={<ResumenesEstadisticos />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/error404" element={<Error404 />} />
