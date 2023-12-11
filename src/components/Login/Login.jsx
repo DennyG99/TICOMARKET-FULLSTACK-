@@ -53,7 +53,7 @@ const Login = () => {
         <nav className="navbar navbar-expand-lg navbar-light bg-white rounded fixed-top rounded-0 shadow-sm">
           <div className="container-fluid">
             <a className="navbar-brand" href="#">
-              <img src="assets/images/logo-img.png" width={140} alt />
+              <img src="assets/images/LOGO TM - LITTLE.png" width={40} height={25} alt /> TICOMARKET
             </a>
             <button
               className="navbar-toggler"
