@@ -12,19 +12,10 @@ export function EditarVendedoresD({
   planData,
 }) {
   const endpoint = "http://127.0.0.1:8000/api";
-
-
-  const [nombre, setNombre] = useState("");
-  const [apellidoUno, setApellidoUno] = useState("");
-
-  const [apellidoDos, setApellidoDos] = useState("");
-  const [correo, setCorreo] = useState("");
   const [estado, setEstado] = useState([]);
-  const [rol,setRol]=useState([]);
-  const [rolSeleccionado,setRolSeleccionado]=useState("");
   const [estadoSeleccionado, setEstadoSeleccionado] = useState("");
-  const [telefono, setTelefono] = useState("");
-  let message = "";
+
+
 
   useEffect(() => {
     axios
@@ -37,16 +28,7 @@ export function EditarVendedoresD({
       });
   }, []);
 
-  useEffect(() => {
-    axios
-      .get(`${endpoint}/roles`,{headers:{Authorization:`Bearer ${token}`}})
-      .then((response) => {
-        setRol(response.data);
-      })
-      .catch((error) => {
-        console.error("Error al obtener los datos:", error);
-      });
-  }, []);
+
 
 
 
@@ -55,13 +37,7 @@ export function EditarVendedoresD({
 
   useEffect(() => {
     if (planId !== null && planData) {
-      setNombre(planData.nombre);
-      setApellidoUno(planData.apellidoUno);
-      setApellidoDos(planData.apellidoDos);
-      setCorreo(planData.correo);
       setEstadoSeleccionado(planData.idEstado);
-      setRolSeleccionado(planData.idRol);
-      setTelefono(planData.telefono);
     }
   }, [planId, planData]);
 
@@ -69,13 +45,7 @@ export function EditarVendedoresD({
 
   const validarCampos = () => {
     if (
-      !nombre ||
-      !apellidoUno ||
-      !apellidoDos ||
-      !correo ||
-      !rolSeleccionado ||
-      !estadoSeleccionado ||
-      !telefono
+      !estadoSeleccionado 
     ) {
       error((message = "Por favor llene todos los campos"));
       return false;
@@ -83,48 +53,33 @@ export function EditarVendedoresD({
     return true;
   };
 
-  const validarCamposNumericos = () => {
-    if (isNaN(parseFloat(telefono)) || !isFinite(telefono)) {
-      error(
-        (message = "Por favor ingrese un valor numérico válido para el precio")
-      );
-      return false;
-    }
-    return true;
-  };
+
 
   const handleGuardarClick = () => {
-    if (!validarCampos()|| !validarCamposNumericos()) {
+    if (!validarCampos()) {
       return;
     }
     console.log(planId)
+    console.log(estadoSeleccionado);
     axios
-      .put(`${endpoint}/usuario/editar/${planId}`, {
-        nombre,
-        apellidoUno,
-        apellidoDos,
-        correo,
-        idRol:rolSeleccionado,
-        idEstado: estadoSeleccionado,
-        telefono
-      },{headers:{Authorization:`Bearer ${token}`}})
-      .then((response) => {
-        success((message = "Plan editado de forma correcta"));
+    
+  axios
+  .put(
+    `http://localhost:8000/api/vendedor/modificar/${planId}`,
+    { idEstado: estadoSeleccionado },
+    { headers: { Authorization: `Bearer ${token}` } }
+  )
+  .then((response) => {
+    success("Plan editado de forma correcta");
 
-        $("#editarPlan").modal("hide");
-        actualizarUsuario();
-
-        setNombre("");
-        setApellidoUno("");
-        setApellidoDos("");
-        setCorreo("");
-        setEstadoSeleccionado("");
-        setTelefono("");
-      })
-      .catch((error) => {
-        console.error("Error al actualizar el plan:", error);
-      });
-  };
+    $("#editarPlan").modal("hide");
+    actualizarUsuario();
+    setEstadoSeleccionado("");
+  })
+  .catch((error) => {
+    console.error("Error al actualizar el plan:", error);
+  });
+};
 
 
 
@@ -161,72 +116,7 @@ export function EditarVendedoresD({
             </div>
             <div className="modal-body">
               <form>
-                <div className="form-group">
-                  <label htmlFor="nombre">Nombre del plan</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="nombre"
-                    placeholder="Ingrese el nombre del usuario"
-                    value={nombre}
-                    onChange={(e) => setNombre(e.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="apellidoUno">Primer apellido</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="apellidoUno"
-                    placeholder="Ingrese el primer apellido"
-                    value={apellidoUno}
-                    onChange={(e) => setApellidoUno(e.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="apellidoDos">Segundo Apellido</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="apellidoDos"
-                    placeholder="Ingrese el segundo apellido"
-                    value={apellidoDos}
-                    onChange={(e) => setApellidoDos(e.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="correo">Correo</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="correo"
-                    placeholder="Ingrese el correo"
-                    value={correo}
-                    onChange={(e) => setCorreo(e.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="rol">Rol</label>
-                  <select
-                    className="form-control"
-                    id="rol"
-                    value={rolSeleccionado}
-                    onChange={(e) => setRolSeleccionado(e.target.value)}
-                  >
-                    <option value="" disabled>
-                      Selecciona un estado
-                    </option>
-                    {rol.map((rol) => (
-                      <option key={rol.id} value={rol.id}>
-                        {rol.nombre}
-                      </option>
-                    ))}
-                  </select>
-                  </div>
+               
 
                 <div className="form-group">
                   <label htmlFor="estado">Estado</label>
@@ -245,19 +135,7 @@ export function EditarVendedoresD({
                       </option>
                     ))}
                   </select>
-                  </div>
-                  <div className="form-group">
-                  <label htmlFor="telefono">Telefono</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="telefono"
-                    placeholder="Ingrese el correo"
-                    value={telefono}
-                    onChange={(e) => setTelefono(e.target.value)}
-                  />
-                </div>
-              
+                  </div>     
               </form>
             </div>
             <div className="modal-footer">

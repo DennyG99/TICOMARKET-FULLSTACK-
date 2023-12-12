@@ -50,13 +50,15 @@ export function NuevaPolitica(props) {
       Swal.fire({
         icon: "success",
         title: "Datos agregados Correctamente",
-      });
+      });  props.actualizarPoliticas();
     } else {
       Swal.fire({
         icon: "warning",
         title: "Existen campos vacios",
       });
     }
+   
+    
   };
 
 

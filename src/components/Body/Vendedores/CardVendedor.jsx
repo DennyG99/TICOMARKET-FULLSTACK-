@@ -64,16 +64,17 @@ const CardVendedoresD = () => {
 
   const eliminarUsuario = (idUser) => {
     console.log("SOY EL ID USER",idUser);
+    console.log("SOY EL ID USER",token);
     confirm().then((result) => {
       if (result.isConfirmed) {
         axios
-          .post(`${endpoint}/vendedor/eliminar/${idUser}`,{headers:{Authorization:`Bearer ${token}`}})
+          .post(`${endpoint}/vendedor/eliminar/${idUser}`,null,{headers:{Authorization:`Bearer ${token}` }})
           .then((response) => {
             success((message = "Usuario eliminado de forma correcta"));
             actualizarUsuario();
           })
           .catch((error) => {
-            console.error("Error al eliminar Usuario:", error);
+            console.error("Error al eliminar Usuarioooooooooo:", error);
           });
       }
     });
@@ -105,7 +106,8 @@ const CardVendedoresD = () => {
                       <th>Segundo Apellido</th>
                       <th>Telefono</th>
                       <th>Correo</th>
-                      <th>Rol</th>
+                      <th>Tienda</th>
+                      <th>Negocio</th>
                       <th>Estado</th>
                       <th>Accion</th>
                   
@@ -114,13 +116,14 @@ const CardVendedoresD = () => {
                   <tbody>
                     {usuarios.map((user) => (
                       <tr key={user.id}>
-                        <td>{user.nombre}</td>
+                        <td>{user.nombreUsuario}</td>
                         <td>{user.apellidoUno}</td>
                         <td>{user.apellidoDos}</td>
                         <td>{user.telefono}</td>
                         <td>{user.correo}</td>
-                        <td>{user.rol}</td>
-                        <td>{user.estado}</td>
+                        <td>{user.nombreTienda ? user.nombreTienda : 'Sin tienda asignada'}</td>
+                        <td>{user.tipoNegocio ? user.tipoNegocio : 'Sin negocio asignado'}</td>
+                        <td>{user.nombreEstado}</td>
                     
                         <td>
                           <EditarVendedoresD

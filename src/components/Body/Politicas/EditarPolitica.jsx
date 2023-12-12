@@ -66,6 +66,7 @@ export function EditarPolitica(props) {
     ) {
       console.log("Datos del formulario:", formData);
       editarPolitica(props.id);
+      props.actualizarPoliticas();
     } else {
       Swal.fire({
         icon: "warning",
