@@ -86,12 +86,12 @@ const Sidebar = () => {
                   Administradores
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="/usuarios">
                   <i className="bx bx-right-arrow-alt" />
                   Usuarios
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link to="/vendedores">
                   <i className="bx bx-right-arrow-alt" />

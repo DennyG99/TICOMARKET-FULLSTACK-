@@ -13,24 +13,18 @@ const Error404 = () => {
                   <span className="text-danger">0</span>
                   <span className="text-success">4</span>
                 </h1>
-                <h2 className="font-weight-bold display-4">Lost in Space</h2>
+                <h2 className="font-weight-bold display-4">¿Estás perdido?</h2>
                 <p>
-                  You have reached the edge of the universe. <br />
-                  The page you requested could not be found. <br />
-                  Dont worry and return to the previous page.
+                  La página no fue encontrada. <br />
+                  Creo que hubo una confusión. <br />
+                  No te preocupes, tan solo pulsa el botón para seguir con tu vida.
                 </p>
-                <div className="mt-5">
+                <div className="mt-5 ">
                   <a
                     href="javascript:;"
                     className="btn btn-primary btn-lg px-md-5 radius-30"
                   >
-                    Go Home
-                  </a>
-                  <a
-                    href="javascript:;"
-                    className="btn btn-outline-dark btn-lg ms-3 px-md-5 radius-30"
-                  >
-                    Back
+                    Volver al Dashboard
                   </a>
                 </div>
               </div>

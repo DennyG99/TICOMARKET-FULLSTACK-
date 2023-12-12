@@ -23,7 +23,7 @@ import CardPoliticas from "./components/Body/Politicas/CardPoliticas.jsx";
 import CardPlanes from "./components/Body/Planes/CardPlanes.jsx";
 import GestionModerador from "./components/Body/GestionAdministrador/GestionModerador.jsx";
 import ResumenesEstadisticos from "./components/Body/ResumenesEstadisticos/ResumenesEstadisticos.jsx";
-import GestionUsuario from "./components/Body/GestionUsuario/GestionUsuario.jsx";
+// import GestionUsuario from "./components/Body/GestionUsuario/GestionUsuario.jsx";
 import MonitorearActividades from "./components/Body/MonitorearActividades/monitorearActividades.jsx";
 import CardVendedoresD from "./components/Body/Vendedores/CardVendedor.jsx";
 import GestionSuperAdmin from "./components/Body/GestionAdministrador/gestionSuperAdmin.jsx";
@@ -118,10 +118,10 @@ function App() {
               path="/administradores"
               element={isAuthenticated ? <GestionSuperAdmin /> : <Login />}
             />
-            <Route
+            {/* <Route
               path="/usuarios"
               element={isAuthenticated ? <GestionUsuario /> : <Login />}
-            />
+            /> */}
             <Route
               path="/vendedores"
               element={isAuthenticated ? <CardVendedoresD /> : <Login />}
