@@ -27,7 +27,8 @@ import GestionUsuario from "./components/Body/GestionUsuario/GestionUsuario.jsx"
 import MonitorearActividades from "./components/Body/MonitorearActividades/monitorearActividades.jsx";
 import CardVendedoresD from "./components/Body/Vendedores/CardVendedor.jsx";
 import GestionSuperAdmin from "./components/Body/GestionAdministrador/gestionSuperAdmin.jsx";
-import { Products } from "./components/Body/TicoMarket/Products.jsx";
+// import CambioPass from "./components/Body/CambioPass/CambioPass.jsx";
+// import { Products } from "./components/Body/TicoMarket/Products.jsx";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -64,7 +65,6 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIsAuthenticated(!!token);
-    
   }, []);
 
   return (
@@ -77,20 +77,63 @@ function App() {
           {isAuthenticated && <Header />}
           {isAuthenticated && <Sidebar />}
           <Routes>
+            {/* Rutas publicas */}
             <Route path="/login" element={<Login />} />
             <Route path="/Verificacion" element={<Verificacion />} />
-            <Route path="/" element={<Login />} />
-            <Route path="/dashboard" element={<ResumenesEstadisticos />} />
-            <Route path="*" element={<NotFound />} />
-            <Route path="/error404" element={<Error404 />} />
-            <Route path="/estados" element={<ApartadoEstadosV2 />} />
-            <Route path="/politicas" element={<CardPoliticas />} />
-            <Route path="/planes" element={<CardPlanes />} />
-            <Route path="/moderador" element={<GestionModerador />} />
-            <Route path="/administradores" element={<GestionSuperAdmin></GestionSuperAdmin>} />
-            <Route path="/usuarios" element={<GestionUsuario />} />
-            <Route path="/vendedores" element={<CardVendedoresD />} />
-            <Route path="/monitoreo" element={<MonitorearActividades />} />
+
+            {/* Rutas privadas */}
+            <Route
+              path="/"
+              element={isAuthenticated ? <ResumenesEstadisticos /> : <Login />}
+            />
+            <Route
+              path="/dashboard"
+              element={isAuthenticated ? <ResumenesEstadisticos /> : <Login />}
+            />
+            <Route
+              path="*"
+              element={isAuthenticated ? <NotFound /> : <Login />}
+            />
+            <Route
+              path="/error404"
+              element={isAuthenticated ? <Error404 /> : <Login />}
+            />
+            <Route
+              path="/estados"
+              element={isAuthenticated ? <ApartadoEstadosV2 /> : <Login />}
+            />
+            <Route
+              path="/politicas"
+              element={isAuthenticated ? <CardPoliticas /> : <Login />}
+            />
+            <Route
+              path="/planes"
+              element={isAuthenticated ? <CardPlanes /> : <Login />}
+            />
+            <Route
+              path="/moderador"
+              element={isAuthenticated ? <GestionModerador /> : <Login />}
+            />
+            <Route
+              path="/administradores"
+              element={isAuthenticated ? <GestionSuperAdmin /> : <Login />}
+            />
+            <Route
+              path="/usuarios"
+              element={isAuthenticated ? <GestionUsuario /> : <Login />}
+            />
+            <Route
+              path="/vendedores"
+              element={isAuthenticated ? <CardVendedoresD /> : <Login />}
+            />
+            <Route
+              path="/monitoreo"
+              element={isAuthenticated ? <MonitorearActividades /> : <Login />}
+            />
+            {/* <Route
+              path="/passchange"
+              element={isAuthenticated ? <CambioPass /> : <Login />}
+            /> */}
           </Routes>
           {isAuthenticated && <Footer />}
         </div>

@@ -6,9 +6,10 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const upDate = new Date().getFullYear();
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   const loginMutation = useMutation(
     async () => {
@@ -28,12 +29,14 @@ const Login = () => {
     },
     {
       onSuccess: (data) => {
-        // Guardar el token en localStorage o en el estado global de tu aplicación
         localStorage.setItem("token", data.token);
-
-        // Redirigir a la página de verificación después de 3 segundos
-
-        navigate("/verificacion"); // Utiliza el hook useNavigate
+        navigate("/verificacion");
+      },
+      onError: (error) => {
+        console.error("Error de inicio de sesión:", error);
+        setErrorMessage(
+          "No se pudo iniciar sesión. Correo o contraseña incorrectos. Por favor, inténtelo de nuevo o contacte a soporte."
+        );
       },
     }
   );
@@ -41,6 +44,10 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     loginMutation.mutate();
+    setButtonDisabled(true);
+    setTimeout(() => {
+      setButtonDisabled(false);
+    }, 10000);
   };
 
   const togglePasswordVisibility = () => {
@@ -53,7 +60,13 @@ const Login = () => {
         <nav className="navbar navbar-expand-lg navbar-light bg-white rounded fixed-top rounded-0 shadow-sm">
           <div className="container-fluid">
             <a className="navbar-brand" href="#">
-              <img src="assets/images/LOGO TM - LITTLE.png" width={40} height={25} alt /> TICOMARKET
+              <img
+                src="assets/images/LOGO TM - LITTLE.png"
+                width={40}
+                height={25}
+                alt
+              />{" "}
+              TICOMARKET
             </a>
             <button
               className="navbar-toggler"
@@ -88,6 +101,7 @@ const Login = () => {
           </div>
         </nav>
       </header>
+
       <div className="section-authentication-signin d-flex align-items-center justify-content-center my-5 my-lg-4">
         <div className="container-fluid">
           <div className="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
@@ -110,6 +124,11 @@ const Login = () => {
                       <hr />
                       <br />
                     </div>
+                    {errorMessage && (
+                      <div className="alert alert-danger" role="alert">
+                        {errorMessage}
+                      </div>
+                    )}
                     <div className="form-body">
                       <form className="row g-3" onSubmit={handleSubmit}>
                         <div className="col-12">
@@ -150,7 +169,6 @@ const Login = () => {
                               type="button"
                               onClick={togglePasswordVisibility}
                               className="input-group-text bg-secondary"
-                              
                             >
                               {showPassword ? "👁️" : "👁️‍🗨️"}
                             </a>
@@ -164,7 +182,11 @@ const Login = () => {
                         </div>
                         <div className="col-12">
                           <div className="d-grid">
-                            <button type="submit" className="btn btn-primary">
+                            <button
+                              type="submit"
+                              className="btn btn-primary"
+                              disabled={buttonDisabled}
+                            >
                               <i className="bx bxs-lock-open" />
                               Iniciar Sesión
                             </button>
@@ -180,8 +202,12 @@ const Login = () => {
           {/*end row*/}
         </div>
       </div>
+
       <footer className="bg-white shadow-sm border-top p-2 text-center fixed-bottom">
-        <p className="mb-0">Copyright © {upDate}. All right reserved.</p>
+        <p className="mb-0">
+          TICOMARKET. Copyright © {new Date().getFullYear()}. All right
+          reserved.
+        </p>
       </footer>
     </div>
   );

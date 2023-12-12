@@ -10,14 +10,20 @@ const getUserName = () => {
   return null;
 };
 const getRoleName = (roleId) => {
-  const roleMappings = {
-    1: "Administrador",
-    // Agrega más mapeos según sea necesario
+  const roleMap = {
+    1: "Super Administrador",
+    2: "Administrador",
+    3: "Soporte",
+    4: "Vendedor",
+    5: "Cliente",
+    6: "Contador",
+    7: "Admin Contenido",
+    8: "Moderador",
+    9: "Soporte Cliente",
   };
 
-  return roleMappings[roleId] || "Desconocido";
+  return roleMap[roleId] || "Desconocido";
 };
-
 
 const getUserRole = () => {
   const userData = localStorage.getItem("userData");
@@ -578,7 +584,7 @@ const Header = () => {
                 href="#"
                 role="button"
                 data-bs-toggle="dropdown"
-                aria-expanded="false"
+                aria-expanded="true"
               >
                 {userName && (
                   <div className="user-info ps-3">
