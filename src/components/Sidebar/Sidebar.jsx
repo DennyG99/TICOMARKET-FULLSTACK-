@@ -52,14 +52,9 @@ const Sidebar = () => {
           </div>
         </div>
 
-        <ul className="metismenu" id="menu">
+        <ul className="metismenu" id="nada">
           <li>
-            <a href="javascript:;" className="has-arrow">
-              <div className="parent-icon">
-                <i className="bx bx-category" />
-              </div>
-              <div className="menu-title">Application</div>
-            </a>
+            
             <ul>
               <li>
                 <Link to="/estados">
